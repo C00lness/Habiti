@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.compose.compiler)
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -38,7 +39,6 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.4"
     }
-
 }
 
 dependencies {
@@ -59,4 +59,7 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 }
