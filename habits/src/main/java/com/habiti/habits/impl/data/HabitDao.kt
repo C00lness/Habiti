@@ -29,4 +29,21 @@ interface HabitDao {
 
     @Query("SELECT * FROM habits WHERE name LIKE '%' || :query || '%'")
     fun searchHabits(query: String): Flow<List<HabitEntity>>
+    @Query("DELETE FROM habits")
+    suspend fun deleteAll()
+
+    @Query("SELECT COUNT(*) FROM habits")
+    suspend fun getCount(): Int
+
+    @Query("SELECT COUNT(*) FROM habits")
+    fun getCountSync(): Int
+
+    @Insert
+    fun insertHabitSync(habit: HabitEntity)
+
+    @Query("UPDATE habits SET lastCompletedDate = :date WHERE id = :id")
+    suspend fun updateLastCompletedDate(id: Long, date: Long)
+
+    @Query("UPDATE habits SET lastCompletedDate = :date WHERE id = :id")
+    fun updateLastCompletedDateSync(id: Long, date: Long)
 }
