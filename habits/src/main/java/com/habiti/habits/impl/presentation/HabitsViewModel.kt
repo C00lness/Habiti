@@ -1,6 +1,5 @@
 package com.habiti.habits.impl.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.habiti.habits.impl.data.HabitRepository
@@ -20,6 +19,19 @@ class HabitsViewModel( private val repository: HabitRepository) : ViewModel() {
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
+    private val _navigateToAdd = MutableStateFlow(false)
+    val navigateToAdd: StateFlow<Boolean> = _navigateToAdd.asStateFlow()
+
+    private val _habitToEdit = MutableStateFlow<Habit?>(null)
+    val habitToEdit: StateFlow<Habit?> = _habitToEdit.asStateFlow()
+
+    fun onEditHabit(habit: Habit) {
+        _habitToEdit.value = habit
+    }
+
+    fun clearEditHabit() {
+        _habitToEdit.value = null
+    }
 
     init {
         observeAllHabits()
@@ -51,14 +63,14 @@ class HabitsViewModel( private val repository: HabitRepository) : ViewModel() {
         }
     }
 
-    fun onAddHabitClick() {
+    fun onAddHabitClick(id: String, name: String, description: String, icon: String, isArchive: Boolean) {
         viewModelScope.launch {
             val now = System.currentTimeMillis()
             val newHabit = Habit(
-                id = "0", // будет заменено при вставке
-                name = "Новая привычка",
-                description = null,
-                icon = "✨",
+                id = id,
+                name = name,
+                description = description,
+                icon = icon,
                 color = 0xFF6B4EFF,
                 targetCount = 30,
                 currentCount = 0,
@@ -66,7 +78,7 @@ class HabitsViewModel( private val repository: HabitRepository) : ViewModel() {
                 maxStreak = 0,
                 createdAtMillis = now,
                 updatedAtMillis = now,
-                isArchived = false,
+                isArchived = isArchive,
                 reminderTime = null,
                 reminderDays = null
             )
@@ -94,5 +106,25 @@ class HabitsViewModel( private val repository: HabitRepository) : ViewModel() {
     // Клик по привычке (открыть детали)
     fun onHabitClick(habitId: String) {
         // TODO: реализовать навигацию
+    }
+
+    fun onAddHabitClick() {
+        _navigateToAdd.value = true
+    }
+
+    fun onAddScreenClosed() {
+        _navigateToAdd.value = false
+    }
+
+    fun addNewHabit(habit: Habit) {
+        viewModelScope.launch {
+            repository.insertHabit(habit)
+        }
+    }
+
+    fun updateHabit(habit: Habit) {
+        viewModelScope.launch {
+            repository.updateHabit(habit)
+        }
     }
 }

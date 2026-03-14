@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="deleteConfirm">666</string>
+
+    <!-- Общие строки -->
+    <string name="save">Сохранить</string>
+    <string name="cancel">Отмена</string>
+    <string name="delete">Удалить</string>
+    <string name="add">Добавить</string>
+    <string name="edit">Редактировать</string>
+    <string name="close">Закрыть</string>
+    <string name="error">Ошибка\"%s\"</string>
+    <string name="loading">Загрузка...</string>
+
+    <!-- Экран привычек -->
+    <string name="habits_title">Мои привычки</string>
+    <string name="streak_days">Стрик: %d дней</string>
+    <string name="streak_days_one">Стрик: %d день</string>
+    <string name="streak_days_few">Стрик: %d дня</string>
+    <string name="search_hints">Поиск привычек...</string>
+    <string name="no_habits">Нет привычек. Нажмите + чтобы добавить</string>
+
+    <!-- Экран добавления/редактирования привычки -->
+    <string name="new_habit_title">Новая привычка</string>
+    <string name="edit_habit_title">Редактировать привычку</string>
+    <string name="habit_name_hint">Название привычки</string>
+    <string name="choose_icon">Выберите иконку:</string>
+    <string name="choose_color">Выберите цвет:</string>
+    <string name="target_days">Цель (дней)</string>
+    <string name="target_days_error">Введите число</string>
+
+    <!-- Названия цветов -->
+    <string name="color_green">Зелёный</string>
+    <string name="color_blue">Синий</string>
+    <string name="color_cyan">Голубой</string>
+    <string name="color_orange">Оранжевый</string>
+    <string name="color_purple">Фиолетовый</string>
+    <string name="color_pink">Розовый</string>
+
+    <!-- Диалог удаления -->
+    <string name="delete_habit_title">Удалить привычку</string>
+    <string name="delete_habit_message">Вы уверены, что хотите удалить привычку \"%s\"?</string>
+
+    <!-- Ошибки -->
+    <string name="error_habit_name_empty">Название не может быть пустым</string>
+    <string name="error_habit_target_invalid">Укажите корректную цель</string>
+
+    <string name="target_count_default">30</string>
+</resources>
