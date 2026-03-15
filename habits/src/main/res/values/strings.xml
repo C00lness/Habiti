@@ -11,7 +11,7 @@
     <string name="close">Закрыть</string>
     <string name="error">Ошибка\"%s\"</string>
     <string name="loading">Загрузка...</string>
-
+    <string name="ok">OK...</string>
     <!-- Экран привычек -->
     <string name="habits_title">Мои привычки</string>
     <string name="streak_days">Стрик: %d дней</string>
@@ -46,4 +46,18 @@
     <string name="error_habit_target_invalid">Укажите корректную цель</string>
 
     <string name="target_count_default">30</string>
+    <string name="choose_time">Выберите время</string>
+    <string name="choose_day">Выберите дни</string>
+    <string name="every_days">Каждый день</string>
+    <string name="holidays">Выходные</string>
+    <string name="work_days">Будни</string>
+
+    <string name="reminder">Напоминание</string>
+    <string name="reminder_hour">Час (0-23)</string>
+    <string name="reminder_input_hour">Введите 0-23</string>
+    <string name="reminder_minute">Мин (0-59)</string>
+    <string name="reminder_input_minute">Введите 0-59</string>
+    <string name="reminder_time_for_habit">"Время для привычки: \"%s\"</string>
+    <string name="reminder_habit">Напоминание о привычке</string>
+    <string name="reminder_habit_description">Уведомления о привычках, которые нужно выполнить</string>
 </resources>

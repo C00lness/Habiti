@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Card
@@ -30,8 +31,11 @@ import androidx.compose.ui.unit.dp
 import com.habiti.habits.impl.domain.Habit
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material3.Checkbox
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role.Companion.Checkbox
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.habiti.habits.impl.R
@@ -47,12 +51,9 @@ fun HabitCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 4.dp)
+            .padding(horizontal = 6.dp, vertical = 4.dp)
             .clickable { onClick() },
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = androidx.compose.ui.graphics.Color(habit.color).copy(alpha = 0.08f)
-        )
+                colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
         Row(
             modifier = Modifier
@@ -81,8 +82,14 @@ fun HabitCard(
                     )
                 }
 
-                Spacer(Modifier.width(12.dp))
+                Spacer(Modifier.width(8.dp))
+                Checkbox(
+                    checked = habit.isCompletedToday,
+                    onCheckedChange = onCheckedChange,
+                    modifier = Modifier.size(16.dp)
+                )
 
+                Spacer(Modifier.width(8.dp))
                 // Название и стрик
                 Column {
                     Text(

@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 
 @Database(
     entities = [HabitEntity::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class HabitsDb : RoomDatabase() {

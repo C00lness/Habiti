@@ -19,5 +19,8 @@ data class HabitEntity(
     val isArchived: Boolean,
     val reminderTime: String?,
     val reminderDays: String?,
-    val lastCompletedDate: Long? = null
+    val lastCompletedDate: Long? = null,
+    val reminderEnabled: Boolean = false,
+    val reminderHour: Int? = null,
+    val reminderMinute: Int? = null
 )

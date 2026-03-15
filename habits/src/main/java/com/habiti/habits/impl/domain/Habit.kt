@@ -16,9 +16,12 @@ data class Habit(
     val createdAtMillis: Long,
     val updatedAtMillis: Long,
     val isArchived: Boolean,
-    val reminderTime: String?,
+    val reminderTime: String? = null,
     val reminderDays: List<Int>?,
-    val lastCompletedDate: Long? = null
+    val lastCompletedDate: Long? = null,
+    val reminderEnabled: Boolean,
+    val reminderHour: Int?,
+    val reminderMinute: Int?
 ) {
     // Вычисляемые поля (для удобства в UI)
     val progress: Float
@@ -42,4 +45,9 @@ data class Habit(
             return todayCal.get(Calendar.YEAR) == lastCal.get(Calendar.YEAR) &&
                     todayCal.get(Calendar.DAY_OF_YEAR) == lastCal.get(Calendar.DAY_OF_YEAR)
         }
+
+    val reminderTimeFormatted: String?
+        get() = if (reminderEnabled && reminderHour != null && reminderMinute != null) {
+            String.format("%02d:%02d", reminderHour, reminderMinute)
+        } else null
 }

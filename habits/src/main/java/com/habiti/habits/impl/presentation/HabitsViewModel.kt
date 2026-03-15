@@ -80,7 +80,10 @@ class HabitsViewModel( private val repository: HabitRepository) : ViewModel() {
                 updatedAtMillis = now,
                 isArchived = isArchive,
                 reminderTime = null,
-                reminderDays = null
+                reminderDays = null,
+                reminderEnabled = false,
+                reminderHour = null,
+                reminderMinute = null
             )
             repository.insertHabit(newHabit)
         }

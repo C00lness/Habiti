@@ -12,6 +12,6 @@ import org.koin.dsl.module
 val habitsModule = module {
     single { HabitsDb.getInstance(androidContext()) }
     single { get<HabitsDb>().habitDao() }
-    single { HabitRepository(get()) }
+    single { HabitRepository(get(), androidContext()) }
     viewModel { HabitsViewModel(get()) }
 }
