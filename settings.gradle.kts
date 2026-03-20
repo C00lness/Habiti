@@ -27,3 +27,4 @@ rootProject.name = "Habiti"
 include(":app")
 include(":core")
 include(":habits")
+include(":ti-ai")

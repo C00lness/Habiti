@@ -67,6 +67,7 @@ dependencies {
 
     implementation(project(":core"))
     implementation(project(":habits"))
+    implementation(project(":ti-ai"))
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)

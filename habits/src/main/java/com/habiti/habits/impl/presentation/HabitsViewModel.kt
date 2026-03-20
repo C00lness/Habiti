@@ -25,6 +25,13 @@ class HabitsViewModel( private val repository: HabitRepository) : ViewModel() {
     private val _habitToEdit = MutableStateFlow<Habit?>(null)
     val habitToEdit: StateFlow<Habit?> = _habitToEdit.asStateFlow()
 
+    fun getHabitName(habitId: String): String? {
+        val state = _uiState.value
+        return if (state is HabitsUiState.Success) {
+            state.habits.find { it.id == habitId }?.name
+        } else null
+    }
+
     fun onEditHabit(habit: Habit) {
         _habitToEdit.value = habit
     }

@@ -24,6 +24,8 @@ import org.koin.compose.koinInject
 @Composable
 fun HabitsScreen() {
     val viewModel: HabitsViewModel = koinInject()
+    val tiMotivator: TiMotivator = koinInject()
+
     val uiState by viewModel.uiState.collectAsState()
     val navigateToAdd by viewModel.navigateToAdd.collectAsState()
     val habitToEdit by viewModel.habitToEdit.collectAsState()  // добавили
