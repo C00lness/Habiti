@@ -3,6 +3,7 @@ agp = "9.1.0"
 composeBomVersion = "2024.02.00"
 coreKtx = "1.17.0"
 coreKtxVersion = "1.17.0"
+datastorePreferences = "1.2.1"
 insertKoinKoinCore = "3.5.0"
 junit = "4.13.2"
 junitVersion = "1.3.0"
@@ -21,6 +22,7 @@ kotlin = "2.3.10"
 composeBom = "2026.02.01"
 jetbrainsKotlinJvm = "2.3.10"
 appcompat = "1.7.1"
+lottieCompose = "6.7.1"
 material = "1.13.0"
 koin = "4.1.1"
 lifecycle = "2.10.0"
@@ -37,6 +39,7 @@ androidx-compose-bom-v20240200 = { module = "androidx.compose:compose-bom", vers
 androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-core-ktx-v1120 = { module = "androidx.core:core-ktx", version.ref = "coreKtxVersion" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-ui = { module = "androidx.compose.ui:ui" }
 androidx-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -62,6 +65,7 @@ kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutine
 kotlinx-coroutines-android-v173 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroidVersion" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
+lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 # Koin
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }

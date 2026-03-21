@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="morning_messages">
-        <item>Доброе утро! ☀️ Сегодня отличный день для \"%$habitName\</item>
-        <item>Привет! Не забудь про \"%$habitName\ сегодня</item>
-        <item>У тебя всё получится с \"%$habitName\! Я верю в тебя</item>
-        <item>Новый день — новые возможности для \"%$habitName\</item>
-        <item>Помни про свою цель: \"%$habitName\</item>
+        <item>Доброе утро! ☀️ Сегодня отличный день для $habitName</item>
+        <item>Привет! Не забудь про $habitName сегодня</item>
+        <item>У тебя всё получится с $habitName! Я верю в тебя</item>
+        <item>Новый день — новые возможности для $habitName</item>
+        <item>Помни про свою цель: $habitName</item>
     </string-array>
 
     <string-array name="evening_messages">
-        <item>Как прошёл день? Не забудь отметить \"%$habitName\</item>
-        <item>Вечер — отличное время для \"%$habitName\</item>
-        <item>Осталось немного времени для \"%$habitName\</item>
-        <item>Ты сегодня молодец! \"%$habitName\ ждёт тебя</item>
+        <item>Как прошёл день? Не забудь отметить $habitName</item>
+        <item>Вечер — отличное время для $habitName</item>
+        <item>Осталось немного времени для $habitName</item>
+        <item>Ты сегодня молодец! habitName ждёт тебя</item>
     </string-array>
 
-    <string name="streak_message_1">Первый день \"%$habitName\ — ты начал! 🎉</string>
+    <string name="streak_message_1">Первый день %habitName — ты начал! 🎉</string>
     <string name="streak_message_2">Три дня подряд! Ты в деле! 🔥</string>
     <string name="streak_message_3">Неделя! Ты супер! 🌟</string>
     <string name="streak_message_4">Месяц! Это победа! 🏆</string>
-    <string name="streak_message_5">\"%streak\! Крутой прогресс! 💪</string>
-    <string name="streak_message_6">Ещё одна неделя $habitName позади! 📈</string>
+    <string name="streak_message_5">%habitName! Крутой прогресс! 💪</string>
+    <string name="streak_message_6">Ещё одна неделя %habitName позади! 📈</string>
     <string-array name="streak_messages_else">
-        <item>Уже \"%streak\ дней! Так держать!</item>
-        <item>\"%streak\ дней — ты молодец!</item>
-        <item>Стрик растёт: \"%streak\ дней!</item>
+        <item>Уже $streak дней! Так держать!</item>
+        <item>$streak дней — ты молодец!</item>
+        <item>Стрик растёт: $streak\ дней!</item>
     </string-array>
 
     <string-array name="missed_messages">
@@ -42,4 +42,8 @@
         <item>Ты сегодня крут! 🔥</item>
         <item>Привычка становится сильнее! 💪</item>
     </string-array>
+
+    <string name="cat_name">cat_name</string>
+    <string name="cat_name_default">Ti</string>
+    <string name="close_description">закрыть</string>
 </resources>

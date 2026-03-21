@@ -19,13 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.habiti.habits.impl.R
-import org.koin.compose.koinInject
 
 @Composable
-fun HabitsScreen() {
-    val viewModel: HabitsViewModel = koinInject()
-    val tiMotivator: TiMotivator = koinInject()
-
+fun HabitsScreen(viewModel: HabitsViewModel) {
     val uiState by viewModel.uiState.collectAsState()
     val navigateToAdd by viewModel.navigateToAdd.collectAsState()
     val habitToEdit by viewModel.habitToEdit.collectAsState()  // добавили
@@ -43,16 +39,15 @@ fun HabitsScreen() {
             )
         }
         habitToEdit != null -> {
-            // Редактирование - используем ТОТ ЖЕ экран!
             AddHabitScreen(
                 onHabitAdded = {
-                    viewModel.clearEditHabit()  // новый метод
+                    viewModel.clearEditHabit()
                 },
                 onCancel = {
-                    viewModel.clearEditHabit()  // новый метод
+                    viewModel.clearEditHabit()
                 },
                 viewModel = viewModel,
-                habitToEdit = habitToEdit  // передаем привычку
+                habitToEdit = habitToEdit
             )
         }
         else -> {
@@ -84,7 +79,6 @@ fun HabitsListScreen(
     uiState: HabitsUiState
 ) {
     Column {
-        // Кнопка добавления
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -98,7 +92,6 @@ fun HabitsListScreen(
             }
         }
 
-        // Список привычек
         when (uiState) {
             is HabitsUiState.Loading -> {
                 Box(Modifier.fillMaxSize(), Alignment.Center) {

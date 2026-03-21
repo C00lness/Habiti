@@ -2,8 +2,12 @@ package com.habiti.habits.impl.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.habiti.core.ai.MessageContext
+import com.habiti.core.ai.TiMessage
+import com.habiti.core.ai.TiMotivator
 import com.habiti.habits.impl.data.HabitRepository
 import com.habiti.habits.impl.domain.Habit
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,7 +15,9 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-class HabitsViewModel( private val repository: HabitRepository) : ViewModel() {
+class HabitsViewModel( private val repository: HabitRepository,
+                       private val tiMotivator: TiMotivator
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow<HabitsUiState>(HabitsUiState.Loading)
     val uiState: StateFlow<HabitsUiState> = _uiState.asStateFlow()
@@ -24,6 +30,9 @@ class HabitsViewModel( private val repository: HabitRepository) : ViewModel() {
 
     private val _habitToEdit = MutableStateFlow<Habit?>(null)
     val habitToEdit: StateFlow<Habit?> = _habitToEdit.asStateFlow()
+
+    private val _tiMessage = MutableStateFlow<TiMessage?>(null)
+    val tiMessage: StateFlow<TiMessage?> = _tiMessage.asStateFlow()
 
     fun getHabitName(habitId: String): String? {
         val state = _uiState.value
@@ -102,39 +111,41 @@ class HabitsViewModel( private val repository: HabitRepository) : ViewModel() {
             viewModelScope.launch {
                 repository.incrementProgress(habitId)
                 repository.updateLastCompletedDate(habitId, System.currentTimeMillis())
+                val habitName = getHabitName(habitId)
+                if (habitName != null) {
+                    val msg = tiMotivator.getMessage(MessageContext.Completed(habitName))
+                    _tiMessage.value = msg
+                    delay(10000)
+                    _tiMessage.value = null
+                }
             }
         }
     }
-
-    // Удаление привычки
     fun onDeleteHabit(habit: Habit) {
         viewModelScope.launch {
             repository.deleteHabit(habit)
         }
     }
-
-    // Клик по привычке (открыть детали)
     fun onHabitClick(habitId: String) {
         // TODO: реализовать навигацию
     }
-
     fun onAddHabitClick() {
         _navigateToAdd.value = true
     }
-
     fun onAddScreenClosed() {
         _navigateToAdd.value = false
     }
-
     fun addNewHabit(habit: Habit) {
         viewModelScope.launch {
             repository.insertHabit(habit)
         }
     }
-
     fun updateHabit(habit: Habit) {
         viewModelScope.launch {
             repository.updateHabit(habit)
         }
+    }
+    fun clearTiMessage() {
+        _tiMessage.value = null
     }
 }

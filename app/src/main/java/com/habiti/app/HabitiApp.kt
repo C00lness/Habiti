@@ -3,7 +3,7 @@ package com.habiti.app
 import android.app.Application
 import android.os.ext.SdkExtensions
 import androidx.annotation.RequiresExtension
-import com.example.ti.di.tiModule
+import com.habiti.ti.di.tiModule
 import com.habiti.habits.impl.data.HabitRepository
 import com.habiti.habits.impl.di.habitsModule
 import kotlinx.coroutines.CoroutineScope

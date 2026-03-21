@@ -1,4 +1,4 @@
-package com.example.ti
+package com.habiti.ti
 
 import org.junit.Test
 

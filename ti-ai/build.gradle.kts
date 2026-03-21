@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.ti"
+    namespace = "com.habiti.ti"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1
@@ -53,4 +53,8 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.androidx.compose.material.icons.extended)
+
+    implementation(project(":core"))
+    implementation(libs.lottie.compose)
+    implementation(libs.androidx.datastore.preferences)
 }

@@ -1,4 +1,4 @@
-package com.example.ti
+package com.habiti.core.ai
 
 sealed class MessageContext {
     data class Morning(val habitName: String) : MessageContext()
