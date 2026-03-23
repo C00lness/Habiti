@@ -41,7 +41,7 @@ fun GridHabitsLayout(
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(1f)
-                    .padding(10.dp)
+                    .padding(5.dp)
             )
         }
     }

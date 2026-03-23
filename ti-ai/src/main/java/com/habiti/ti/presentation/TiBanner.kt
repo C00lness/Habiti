@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.habiti.ti.R
@@ -31,31 +32,39 @@ fun TiBanner(
     modifier: Modifier = Modifier
 ) {
     if (message == null) return
+
     Card(
         modifier = modifier
             .fillMaxWidth()
             .padding(16.dp)
             .clickable { onDismiss() },
-
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer
-        )
+            containerColor = Color(0xFFE9E3FF).copy(alpha = 0.85f)
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(20.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            CatAvatar(emotion = message.emotion, modifier = Modifier.size(48.dp))
-            Spacer(modifier = Modifier.width(12.dp))
+            CatAvatar(
+                emotion = message.emotion,
+                modifier = Modifier.size(72.dp)
+            )
+            Spacer(modifier = Modifier.width(16.dp))
             Text(
                 text = message.text,
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.weight(1f)
             )
             IconButton(onClick = onDismiss) {
-                Icon(Icons.Default.Close, contentDescription = stringResource(R.string.close_description))
+                Icon(
+                    Icons.Default.Close,
+                    contentDescription = stringResource(R.string.close_description),
+                    modifier = Modifier.size(28.dp)
+                )
             }
         }
     }

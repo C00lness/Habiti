@@ -30,7 +30,7 @@ class TiMotivatorImpl(
             is MessageContext.Missed -> {
                 val messages = this.context.resources.getStringArray(R.array.missed_messages)
                 val randomMessage = messages.random()
-                TiMessage("$catName: $randomMessage 😿", TiEmotion.SAD)
+                TiMessage("$catName: ${context.habitName} $randomMessage 😿", TiEmotion.SAD)
             }
             is MessageContext.Morning -> {
                 val messages = this.context.resources.getStringArray(R.array.morning_messages)

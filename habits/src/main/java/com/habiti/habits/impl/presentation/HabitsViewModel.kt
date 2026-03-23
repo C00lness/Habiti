@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.habiti.core.ai.MessageContext
 import com.habiti.core.ai.TiMessage
 import com.habiti.core.ai.TiMotivator
+import com.habiti.habits.impl.common.isMilestoneStreak
 import com.habiti.habits.impl.data.HabitRepository
 import com.habiti.habits.impl.domain.Habit
 import kotlinx.coroutines.delay
@@ -109,15 +110,30 @@ class HabitsViewModel( private val repository: HabitRepository,
     fun onHabitChecked(habitId: String, checked: Boolean) {
         if (checked) {
             viewModelScope.launch {
+                val oldHabit = getHabitById(habitId)
                 repository.incrementProgress(habitId)
                 repository.updateLastCompletedDate(habitId, System.currentTimeMillis())
-                val habitName = getHabitName(habitId)
-                if (habitName != null) {
-                    val msg = tiMotivator.getMessage(MessageContext.Completed(habitName))
-                    _tiMessage.value = msg
-                    delay(10000)
-                    _tiMessage.value = null
+                val newHabit = getHabitById(habitId)
+                val habitName = newHabit?.name ?: return@launch
+                val completedMsg = tiMotivator.getMessage(MessageContext.Completed(habitName))
+                _tiMessage.value = completedMsg
+                val newStreak = newHabit.streak ?: 0
+                val oldStreak = oldHabit?.streak ?: 0
+
+                if (newStreak > oldStreak && isMilestoneStreak(newStreak)) {
+                    delay(1500)
+                    val streakMsg = tiMotivator.getMessage(MessageContext.Streak(habitName, newStreak))
+                    _tiMessage.value = streakMsg
                 }
+                delay(3000)
+                _tiMessage.value = null
+
+//                if (habitName != null) {
+//                    val msg = tiMotivator.getMessage(MessageContext.Completed(habitName))
+//                    _tiMessage.value = msg
+//                    delay(10000)
+//                    _tiMessage.value = null
+//                }
             }
         }
     }
@@ -147,5 +163,30 @@ class HabitsViewModel( private val repository: HabitRepository,
     }
     fun clearTiMessage() {
         _tiMessage.value = null
+    }
+    private fun getHabitById(habitId: String): Habit? {
+        val state = _uiState.value
+        return if (state is HabitsUiState.Success) {
+            state.habits.find { it.id == habitId }
+        } else null
+    }
+
+    fun checkMissedHabits() {
+        viewModelScope.launch {
+            val state = _uiState.value
+            if (state is HabitsUiState.Success) {
+                val habits = state.habits
+
+                val missedHabits = habits.filter { !it.isCompletedToday }
+
+                if (missedHabits.isNotEmpty()) {
+                    val randomHabit = missedHabits.random()
+                    val missedMsg = tiMotivator.getMessage(MessageContext.Missed(randomHabit.name))
+                    _tiMessage.value = missedMsg
+                    delay(3000)
+                    _tiMessage.value = null
+                }
+            }
+        }
     }
 }
