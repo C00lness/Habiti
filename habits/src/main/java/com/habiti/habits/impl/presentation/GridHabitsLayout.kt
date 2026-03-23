@@ -40,8 +40,8 @@ fun GridHabitsLayout(
                 onEdit = { onEditHabit(habit) },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .aspectRatio(1f)           // квадрат
-                    .padding(50.dp)
+                    .aspectRatio(1f)
+                    .padding(10.dp)
             )
         }
     }
