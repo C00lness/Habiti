@@ -1,33 +1,21 @@
 package com.habiti.ti.presentation
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.habiti.ti.R
-import com.habiti.ti.cat.CatAvatar
+import com.habiti.core.ai.MentorType
 import com.habiti.core.ai.TiMessage
 
 @Composable
 fun TiBanner(
     message: TiMessage?,
+    mentorType: MentorType,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -39,19 +27,19 @@ fun TiBanner(
             .padding(16.dp)
             .clickable { onDismiss() },
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFFE9E3FF).copy(alpha = 0.85f)
+            containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.95f)
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(20.dp),
+                .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            CatAvatar(
-                emotion = message.emotion,
-                modifier = Modifier.size(72.dp)
+            MentorAvatar(
+                mentorType = mentorType,
+                modifier = Modifier.size(72.dp),
             )
             Spacer(modifier = Modifier.width(16.dp))
             Text(
@@ -60,11 +48,7 @@ fun TiBanner(
                 modifier = Modifier.weight(1f)
             )
             IconButton(onClick = onDismiss) {
-                Icon(
-                    Icons.Default.Close,
-                    contentDescription = stringResource(R.string.close_description),
-                    modifier = Modifier.size(28.dp)
-                )
+                Icon(Icons.Default.Close, contentDescription = "Закрыть")
             }
         }
     }

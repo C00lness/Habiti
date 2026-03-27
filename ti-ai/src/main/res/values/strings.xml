@@ -21,6 +21,7 @@
     <string name="streak_message_4">Месяц! Это победа! 🏆</string>
     <string name="streak_message_5">%habitName! Крутой прогресс! 💪</string>
     <string name="streak_message_6">Ещё одна неделя %habitName позади! 📈</string>
+    <string name="streak_message_7">%d дней подряд! Так держать! 🔥</string>
     <string-array name="streak_messages_else">
         <item>Уже $streak дней! Так держать!</item>
         <item>$streak дней — ты молодец!</item>
