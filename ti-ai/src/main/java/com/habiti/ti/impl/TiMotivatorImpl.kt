@@ -13,7 +13,6 @@ class TiMotivatorImpl(
 ) : TiMotivator {
 
     private var mentorName: String = runBlocking { userPreferencesFlow.first().mentorName }
-    private var mentorType: MentorType = runBlocking { userPreferencesFlow.first().mentorType }
 
     override fun getMessage(context: MessageContext): TiMessage {
         val name = mentorName

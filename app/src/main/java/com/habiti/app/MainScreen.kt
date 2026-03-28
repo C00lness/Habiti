@@ -16,7 +16,7 @@ import com.habiti.ti.presentation.OnboardingScreen
 import com.habiti.ti.presentation.TiBanner
 import com.habiti.habits.impl.presentation.HabitsScreen
 import com.habiti.habits.impl.presentation.HabitsViewModel
-import com.habiti.ti.data.MentorPreferences
+import com.habiti.ti.mentor.MentorPreferences
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 

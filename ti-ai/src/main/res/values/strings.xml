@@ -47,4 +47,5 @@
     <string name="cat_name">cat_name</string>
     <string name="cat_name_default">Ti</string>
     <string name="close_description">закрыть</string>
+    <string name="mentor_name_default">Наставник</string>
 </resources>

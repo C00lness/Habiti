@@ -1,4 +1,4 @@
-package com.habiti.ti.data
+package com.habiti.ti.mentor
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -9,35 +9,36 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.habiti.core.ai.MentorType
 import com.habiti.core.ai.UserPreferences
+import com.habiti.ti.R
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "mentor_prefs")
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "habiti_mentor")
 
 object MentorPreferences {
-    private val MENTOR_TYPE_KEY = stringPreferencesKey("mentor_type")
-    private val MENTOR_NAME_KEY = stringPreferencesKey("mentor_name")
-    private val ONBOARDING_COMPLETED_KEY = booleanPreferencesKey("onboarding_completed")
+    private const val KEY_MENTOR_TYPE = "mentor_type"
+    private const val KEY_MENTOR_NAME = "mentor_name"
+    private const val KEY_ONBOARDING_COMPLETED = "onboarding_completed"
 
     fun getUserPreferences(context: Context): Flow<UserPreferences> {
         return context.dataStore.data.map { prefs ->
             UserPreferences(
-                mentorType = when (prefs[MENTOR_TYPE_KEY]) {
+                mentorType = when (prefs[stringPreferencesKey(KEY_MENTOR_TYPE)]) {
                     MentorType.MALE.name -> MentorType.MALE
                     MentorType.FEMALE.name -> MentorType.FEMALE
                     else -> MentorType.MALE
                 },
-                mentorName = prefs[MENTOR_NAME_KEY] ?: "Наставник",
-                isOnboardingCompleted = prefs[ONBOARDING_COMPLETED_KEY] ?: false
+                mentorName = prefs[stringPreferencesKey(KEY_MENTOR_NAME)] ?: context.getString(R.string.mentor_name_default),
+                isOnboardingCompleted = prefs[booleanPreferencesKey(KEY_ONBOARDING_COMPLETED)] ?: false
             )
         }
     }
 
     suspend fun saveUserPreferences(context: Context, prefs: UserPreferences) {
         context.dataStore.edit { editor ->
-            editor[MENTOR_TYPE_KEY] = prefs.mentorType.name
-            editor[MENTOR_NAME_KEY] = prefs.mentorName
-            editor[ONBOARDING_COMPLETED_KEY] = prefs.isOnboardingCompleted
+            editor[stringPreferencesKey(KEY_MENTOR_TYPE)] = prefs.mentorType.name
+            editor[stringPreferencesKey(KEY_MENTOR_NAME)] = prefs.mentorName
+            editor[booleanPreferencesKey(KEY_ONBOARDING_COMPLETED)] = prefs.isOnboardingCompleted
         }
     }
 }

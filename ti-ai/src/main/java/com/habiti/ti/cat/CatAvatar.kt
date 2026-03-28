@@ -14,7 +14,7 @@ import com.habiti.core.ai.TiEmotion
 
 @Composable
 fun CatAvatar(
-    emotion: TiEmotion,   // пока не используется, можно заменить на разные файлы
+    emotion: TiEmotion,
     modifier: Modifier = Modifier
 ) {
     val composition by rememberLottieComposition(
