@@ -1,5 +1,6 @@
 package com.habiti.ti.impl
 
+import android.annotation.SuppressLint
 import android.content.Context
 import com.habiti.ti.R
 import com.habiti.core.ai.*
@@ -14,6 +15,7 @@ class TiMotivatorImpl(private val context: Context, userPreferencesFlow: Flow<Us
 
     private var mentorName: String = runBlocking { userPreferencesFlow.first().mentorName }
     private var mentorType: MentorType = runBlocking { userPreferencesFlow.first().mentorType }
+    private var userName: String = runBlocking { userPreferencesFlow.first().userName }
     init {
         // Подписываемся на изменения в настройках
         CoroutineScope(Dispatchers.IO).launch {
@@ -24,39 +26,41 @@ class TiMotivatorImpl(private val context: Context, userPreferencesFlow: Flow<Us
         }
     }
     override fun getMessage(context: MessageContext): TiMessage {
-        val name = mentorName
+        val mentorName = mentorName
+        val userName = userName
         return when (context) {
             is MessageContext.Completed -> {
                 val messages = this.context.resources.getStringArray(R.array.complete_messages)
                 val randomMessage = messages.random()
-                TiMessage("$name: $randomMessage 🎯", TiEmotion.HAPPY)
+                TiMessage("$mentorName: $userName $randomMessage 🎯", TiEmotion.HAPPY)
             }
             is MessageContext.Streak -> {
                 val streak = context.streak
                 val habitName = context.habitName
                 val (text, emotion) = getStreakMessage(habitName, streak)
-                TiMessage("$name: $text", emotion)
+                TiMessage("$mentorName: $text", emotion)
             }
             is MessageContext.Missed -> {
                 val messages = this.context.resources.getStringArray(R.array.missed_messages)
                 val randomMessage = messages.random()
-                TiMessage("$name: ${context.habitName} $randomMessage 😿", TiEmotion.SAD)
+                TiMessage("$mentorName: ${context.habitName} $randomMessage 😿", TiEmotion.SAD)
             }
             is MessageContext.Morning -> {
                 val messages = this.context.resources.getStringArray(R.array.morning_messages)
                 val template = messages.random()
                 val text = String.format(template, context.habitName)
-                TiMessage("$name: $text ☀️", TiEmotion.HAPPY)
+                TiMessage("$mentorName: $text ☀️", TiEmotion.HAPPY)
             }
             is MessageContext.Evening -> {
                 val messages = this.context.resources.getStringArray(R.array.evening_messages)
                 val template = messages.random()
                 val text = String.format(template, context.habitName)
-                TiMessage("$name: $text 🌙", TiEmotion.MOTIVATED)
+                TiMessage("$mentorName: $text 🌙", TiEmotion.MOTIVATED)
             }
         }
     }
 
+    @SuppressLint("StringFormatMatches")
     private fun getStreakMessage(habitName: String, streak: Int): Pair<String, TiEmotion> {
         return when {
             streak == 1 -> {

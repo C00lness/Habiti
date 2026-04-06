@@ -143,6 +143,7 @@ fun OnboardingScreen(
                             type = MentorType.ANONYMOUS,
                             isSelected = selectedType == MentorType.ANONYMOUS,
                             onClick = { },
+                            true,
                             modifier = Modifier.weight(1f)
                         )
                     }

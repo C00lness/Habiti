@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -27,6 +28,7 @@ fun MentorTypeCard(
     type: MentorType,
     isSelected: Boolean,
     onClick: () -> Unit,
+    isLocked: Boolean = false,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -38,10 +40,11 @@ fun MentorTypeCard(
                 .fillMaxSize()
                 .clip(RoundedCornerShape(24.dp)),
             colors = CardDefaults.cardColors(
-                containerColor = if (isSelected)
-                    MaterialTheme.colorScheme.primaryContainer
-                else
-                    MaterialTheme.colorScheme.surfaceVariant
+                containerColor = if (isLocked) Color.Black.copy(alpha = 0.6f) else
+                    if (isSelected)
+                        MaterialTheme.colorScheme.primaryContainer
+                    else
+                        MaterialTheme.colorScheme.surfaceVariant
             ),
             elevation = CardDefaults.cardElevation(
                 defaultElevation = if (isSelected) 8.dp else 2.dp

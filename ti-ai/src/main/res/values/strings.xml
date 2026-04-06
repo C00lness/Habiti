@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="morning_messages">
-        <item>Доброе утро! ☀️ Сегодня отличный день для %s</item>
-        <item>Привет! Не забудь про %s сегодня</item>
+        <item>Доброе утро, %s!  ☀️ Сегодня отличный день для %s</item>
+        <item>Привет, %s! Не забудь про %s сегодня</item>
         <item>У тебя всё получится с %s! Я верю в тебя</item>
         <item>Новый день — новые возможности для %s</item>
         <item>Помни про свою цель: %s</item>
@@ -10,14 +10,14 @@
     </string-array>
 
     <string-array name="evening_messages">
-        <item>Как прошёл день? Не забудь отметить %s</item>
+        <item>Как прошёл день, %s? Не забудь отметить %s</item>
         <item>Вечер — отличное время для %s</item>
         <item>Осталось немного времени для %s</item>
         <item>Ты сегодня молодец! habitName ждёт тебя</item>
     </string-array>
 
     <string name="streak_message_1">Первый день %s — ты начал! 🎉</string>
-    <string name="streak_message_2">Три дня подряд! Ты в деле! 🔥</string>
+    <string name="streak_message_2">Три дня подряд! %s - ты в деле! 🔥</string>
     <string name="streak_message_3">Неделя! Ты супер! 🌟</string>
     <string name="streak_message_4">Месяц! Это победа! 🏆</string>
     <string name="streak_message_5">%s! Крутой прогресс! 💪</string>
@@ -30,7 +30,7 @@
     </string-array>
 
     <string-array name="missed_messages">
-        <item>Ничего страшного, завтра получится! 🌅</item>
+        <item>Ничего страшного, %s, завтра получится! 🌅</item>
         <item>Бывает. Главное — продолжать! 💪</item>
         <item>Один пропуск не отменяет твой прогресс</item>
         <item>Отдохни и возвращайся завтра</item>
@@ -40,7 +40,7 @@
     <string-array name="complete_messages">
         <item>Отлично! +1 к прогрессу! ✨</item>
         <item>Молодец! Так держать! 🎯</item>
-        <item>Ещё один шаг к цели! 🚀</item>
+        <item>Ёщё один шаг к цели! 🚀</item>
         <item>Ты сегодня крут! 🔥</item>
         <item>Привычка становится сильнее! 💪</item>
     </string-array>
