@@ -1,5 +1,6 @@
 package com.habiti.habits.impl.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.habiti.core.ai.MessageContext
@@ -110,22 +111,21 @@ class HabitsViewModel( private val repository: HabitRepository,
     fun onHabitChecked(habitId: String, checked: Boolean) {
         if (checked) {
             viewModelScope.launch {
-                val oldHabit = getHabitById(habitId)
+                val oldHabit = repository.getHabitById(habitId)
                 repository.incrementProgress(habitId)
                 repository.updateLastCompletedDate(habitId, System.currentTimeMillis())
-                val newHabit = getHabitById(habitId)
+                val newHabit = repository.getHabitById(habitId)
                 val habitName = newHabit?.name ?: return@launch
                 val completedMsg = tiMotivator.getMessage(MessageContext.Completed(habitName))
                 _tiMessage.value = completedMsg
                 val newStreak = newHabit.streak ?: 0
                 val oldStreak = oldHabit?.streak ?: 0
-
                 if (newStreak > oldStreak && isMilestoneStreak(newStreak)) {
-                    delay(1500)
+                    delay(5000)
                     val streakMsg = tiMotivator.getMessage(MessageContext.Streak(habitName, newStreak))
                     _tiMessage.value = streakMsg
                 }
-                delay(3000)
+                delay(5000)
                 _tiMessage.value = null
 
 //                if (habitName != null) {
@@ -163,12 +163,6 @@ class HabitsViewModel( private val repository: HabitRepository,
     }
     fun clearTiMessage() {
         _tiMessage.value = null
-    }
-    private fun getHabitById(habitId: String): Habit? {
-        val state = _uiState.value
-        return if (state is HabitsUiState.Success) {
-            state.habits.find { it.id == habitId }
-        } else null
     }
 
     fun checkMissedHabits() {

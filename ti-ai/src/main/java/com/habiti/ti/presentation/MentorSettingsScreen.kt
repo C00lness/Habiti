@@ -9,10 +9,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.habiti.core.ai.MentorType
 import com.habiti.core.ai.UserPreferences
-
+import com.habiti.ti.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MentorSettingsScreen(
@@ -22,15 +23,14 @@ fun MentorSettingsScreen(
 ) {
     var selectedType by remember { mutableStateOf(currentPrefs.mentorType) }
     var name by remember { mutableStateOf(currentPrefs.mentorName) }
-    var showPreview by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Настройки наставника") },
+                title = { Text(stringResource(R.string.mentor_settings)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Назад")
+                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 }
             )
@@ -63,18 +63,24 @@ fun MentorSettingsScreen(
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = if (name.isNotBlank()) name else "Наставник",
+                        text = if (name.isNotBlank()) name else stringResource(R.string.mentor_name_default),
                         style = MaterialTheme.typography.titleLarge
                     )
                     Text(
-                        text = if (selectedType == MentorType.MALE) "Мужчина" else "Женщина",
+                        text = when (selectedType)
+                        {
+                            MentorType.MALE -> stringResource(R.string.mentor_man)
+                            MentorType.FEMALE -> stringResource(R.string.mentor_woman)
+                            MentorType.CAT -> stringResource(R.string.mentor_cat)
+                            else -> ""
+                        },
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
             }
 
             // Выбор пола
-            Text("Выберите пол наставника", style = MaterialTheme.typography.titleMedium)
+            Text("Выберите наставника", style = MaterialTheme.typography.titleMedium)
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -82,7 +88,7 @@ fun MentorSettingsScreen(
                 FilterChip(
                     selected = selectedType == MentorType.MALE,
                     onClick = { selectedType = MentorType.MALE },
-                    label = { Text("Мужчина") },
+                    label = { Text(stringResource(R.string.mentor_man)) },
                     leadingIcon = if (selectedType == MentorType.MALE) {
                         { Icon(Icons.Default.Check, contentDescription = null) }
                     } else null
@@ -90,8 +96,16 @@ fun MentorSettingsScreen(
                 FilterChip(
                     selected = selectedType == MentorType.FEMALE,
                     onClick = { selectedType = MentorType.FEMALE },
-                    label = { Text("Женщина") },
+                    label = { Text(stringResource(R.string.mentor_woman)) },
                     leadingIcon = if (selectedType == MentorType.FEMALE) {
+                        { Icon(Icons.Default.Check, contentDescription = null) }
+                    } else null
+                )
+                FilterChip(
+                    selected = selectedType == MentorType.CAT,
+                    onClick = { selectedType = MentorType.CAT },
+                    label = { Text(stringResource(R.string.mentor_cat)) },
+                    leadingIcon = if (selectedType == MentorType.CAT) {
                         { Icon(Icons.Default.Check, contentDescription = null) }
                     } else null
                 )
@@ -101,12 +115,13 @@ fun MentorSettingsScreen(
             OutlinedTextField(
                 value = name,
                 onValueChange = { name = it },
-                label = { Text("Имя наставника") },
-                placeholder = { Text("Наставник") },
+                label = { Text(stringResource(R.string.mentor_name_default)) },
+                placeholder = { Text(stringResource(R.string.mentor_name_default)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
-
+            val mentorName = (stringResource(R.string.mentor_name_default))
+            val save = (stringResource(R.string.save))
             // Кнопки
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -123,14 +138,14 @@ fun MentorSettingsScreen(
                         onSave(
                             UserPreferences(
                                 mentorType = selectedType,
-                                mentorName = name.ifBlank { "Наставник" },
+                                mentorName = name.ifBlank { mentorName },
                                 isOnboardingCompleted = true
                             )
                         )
                     },
                     modifier = Modifier.weight(1f)
                 ) {
-                    Text("Сохранить")
+                    Text(save)
                 }
             }
         }

@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Habiti</string>
+    <string name="hello">Добро пожаловать!</string>
+    <string name="choose_mentor">Выберите наставника</string>
+    <string name="who_y_teach">Кто будет поддерживать вас на пути к привычкам?</string>
+    <string name="mentor_name">Имя наставника</string>
+    <string name="mentor_hold">Например, Елена</string>
+    <string name="enter_mentor_name">Введите имя наставника</string>
+    <string name="start_y_way">Начать путь</string>
+    <string name="user_name">Ваше имя</string>
+    <string name="enter_user_name">Введите ваше имя</string>
+    <string name="who_are_y">Как вас зовут?</string>
+    <string name="nice_meet_y">Давайте познакомимся!</string>
+    <string name="how_should_y">Как мне к вам обращаться?</string>
+    <string name="next">Продолжить</string>
+    <string name="settings">Настройки</string>
 </resources>

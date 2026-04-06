@@ -1,31 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="morning_messages">
-        <item>Доброе утро! ☀️ Сегодня отличный день для $habitName</item>
-        <item>Привет! Не забудь про $habitName сегодня</item>
-        <item>У тебя всё получится с $habitName! Я верю в тебя</item>
-        <item>Новый день — новые возможности для $habitName</item>
-        <item>Помни про свою цель: $habitName</item>
+        <item>Доброе утро! ☀️ Сегодня отличный день для %s</item>
+        <item>Привет! Не забудь про %s сегодня</item>
+        <item>У тебя всё получится с %s! Я верю в тебя</item>
+        <item>Новый день — новые возможности для %s</item>
+        <item>Помни про свою цель: %s</item>
+
     </string-array>
 
     <string-array name="evening_messages">
-        <item>Как прошёл день? Не забудь отметить $habitName</item>
-        <item>Вечер — отличное время для $habitName</item>
-        <item>Осталось немного времени для $habitName</item>
+        <item>Как прошёл день? Не забудь отметить %s</item>
+        <item>Вечер — отличное время для %s</item>
+        <item>Осталось немного времени для %s</item>
         <item>Ты сегодня молодец! habitName ждёт тебя</item>
     </string-array>
 
-    <string name="streak_message_1">Первый день %habitName — ты начал! 🎉</string>
+    <string name="streak_message_1">Первый день %s — ты начал! 🎉</string>
     <string name="streak_message_2">Три дня подряд! Ты в деле! 🔥</string>
     <string name="streak_message_3">Неделя! Ты супер! 🌟</string>
     <string name="streak_message_4">Месяц! Это победа! 🏆</string>
-    <string name="streak_message_5">%habitName! Крутой прогресс! 💪</string>
-    <string name="streak_message_6">Ещё одна неделя %habitName позади! 📈</string>
+    <string name="streak_message_5">%s! Крутой прогресс! 💪</string>
+    <string name="streak_message_6">Ещё одна неделя %s позади! 📈</string>
     <string name="streak_message_7">%d дней подряд! Так держать! 🔥</string>
     <string-array name="streak_messages_else">
-        <item>Уже $streak дней! Так держать!</item>
-        <item>$streak дней — ты молодец!</item>
-        <item>Стрик растёт: $streak\ дней!</item>
+        <item>Уже %d дней! Так держать!</item>
+        <item>%d дней — ты молодец!</item>
+        <item>Стрик растёт: %d\ дней!</item>
     </string-array>
 
     <string-array name="missed_messages">
@@ -48,4 +49,24 @@
     <string name="cat_name_default">Ti</string>
     <string name="close_description">закрыть</string>
     <string name="mentor_name_default">Наставник</string>
+    <string name="user_name_default">Пользователь</string>
+
+    <string name="mentor_man">Мужчина</string>
+    <string name="mentor_woman">Женщина</string>
+    <string name="mentor_finance">Твой помощник</string>
+    <string name="mentor_cat">Котик</string>
+
+    <string name="mentor_man_logo">🏌️‍♀️</string>
+    <string name="mentor_woman_logo">👄</string>
+    <string name="mentor_finance_logo">💰</string>
+    <string name="mentor_cat_logo">🐱</string>
+
+    <string name="mentor_man_desc">Мудрый сильный наставник</string>
+    <string name="mentor_woman_desc">Добрая независимая наставница</string>
+    <string name="mentor_finance_desc">Создай своего помощника</string>
+    <string name="mentor_cat_desc">Заботливый и уютный компаньон</string>
+
+    <string name="mentor_settings">Настройки помощника</string>
+    <string name="back">Назад</string>
+    <string name="save">Сохранить</string>
 </resources>

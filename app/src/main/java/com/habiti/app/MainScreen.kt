@@ -10,9 +10,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import com.habiti.core.ai.UserPreferences
 import com.habiti.ti.presentation.MentorSettingsScreen
-import com.habiti.ti.presentation.OnboardingScreen
 import com.habiti.ti.presentation.TiBanner
 import com.habiti.habits.impl.presentation.HabitsScreen
 import com.habiti.habits.impl.presentation.HabitsViewModel
@@ -77,10 +77,10 @@ fun MainScreen() {
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text("Habiti") },
+                    title = { Text(stringResource(R.string.app_name)) },
                     actions = {
                         IconButton(onClick = { showSettings = true }) {
-                            Icon(Icons.Default.Settings, contentDescription = "Настройки")
+                            Icon(Icons.Default.Settings, contentDescription = stringResource(R.string.settings))
                         }
                     }
                 )

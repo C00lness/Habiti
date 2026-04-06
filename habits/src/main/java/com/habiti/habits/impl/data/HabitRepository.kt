@@ -172,4 +172,10 @@ class HabitRepository(private val database: HabitsDb, private val context: Conte
             }
         }
     }
+
+    suspend fun getHabitById(habitId: String): Habit? {
+        val id = habitId.toLongOrNull() ?: return null
+        val entity = dao.getHabitById(id)
+        return entity?.toDomain()
+    }
 }

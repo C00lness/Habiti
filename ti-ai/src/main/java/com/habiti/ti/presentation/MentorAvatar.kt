@@ -29,6 +29,17 @@ fun MentorAvatar(
             1 -> R.raw.animation1_woman
             else -> R.raw.animation2_woman
         }
+
+        MentorType.ANONYMOUS -> when (animationVariant)
+        {
+            1 -> R.raw.finance
+            else -> R.raw.finance
+        }
+
+        MentorType.CAT -> when (animationVariant) {
+            1 -> R.raw.cat
+            else -> R.raw.cat_2
+        }
     }
 
     val composition by rememberLottieComposition(

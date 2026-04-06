@@ -24,8 +24,20 @@ interface HabitDao {
     @Delete
     suspend fun deleteHabit(habit: HabitEntity)
 
-    @Query("UPDATE habits SET currentCount = currentCount + 1 WHERE id = :id")
-    suspend fun incrementProgress(id: Long)
+    @Query("""
+        UPDATE habits 
+        SET 
+            currentCount = currentCount + 1,
+            streak = CASE 
+                WHEN date(lastCompletedDate / 1000, 'unixepoch') != date('now') 
+                THEN 1 
+                ELSE streak + 1 
+            END,
+            maxStreak = MAX(maxStreak, streak + 1),
+            lastCompletedDate = :timestamp
+        WHERE id = :id
+    """)
+    suspend fun incrementProgress(id: Long, timestamp: Long = System.currentTimeMillis())
 
     @Query("SELECT * FROM habits WHERE name LIKE '%' || :query || '%'")
     fun searchHabits(query: String): Flow<List<HabitEntity>>
@@ -46,4 +58,5 @@ interface HabitDao {
 
     @Query("UPDATE habits SET lastCompletedDate = :date WHERE id = :id")
     fun updateLastCompletedDateSync(id: Long, date: Long)
+
 }

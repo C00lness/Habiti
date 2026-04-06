@@ -8,9 +8,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.habiti.core.ai.MentorType
 import com.habiti.core.ai.TiMessage
+import com.habiti.ti.R
 
 @Composable
 fun TiBanner(
@@ -42,13 +44,14 @@ fun TiBanner(
                 modifier = Modifier.size(72.dp),
             )
             Spacer(modifier = Modifier.width(16.dp))
+
             Text(
                 text = message.text,
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.weight(1f)
             )
             IconButton(onClick = onDismiss) {
-                Icon(Icons.Default.Close, contentDescription = "Закрыть")
+                Icon(Icons.Default.Close, contentDescription = stringResource(R.string.close_description))
             }
         }
     }

@@ -18,6 +18,7 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 object MentorPreferences {
     private const val KEY_MENTOR_TYPE = "mentor_type"
     private const val KEY_MENTOR_NAME = "mentor_name"
+    private const val KEY_USER_NAME = "user_name"
     private const val KEY_ONBOARDING_COMPLETED = "onboarding_completed"
 
     fun getUserPreferences(context: Context): Flow<UserPreferences> {
@@ -28,6 +29,7 @@ object MentorPreferences {
                     MentorType.FEMALE.name -> MentorType.FEMALE
                     else -> MentorType.MALE
                 },
+                userName = prefs[stringPreferencesKey(KEY_USER_NAME)] ?: context.getString(R.string.user_name_default),
                 mentorName = prefs[stringPreferencesKey(KEY_MENTOR_NAME)] ?: context.getString(R.string.mentor_name_default),
                 isOnboardingCompleted = prefs[booleanPreferencesKey(KEY_ONBOARDING_COMPLETED)] ?: false
             )
@@ -38,6 +40,7 @@ object MentorPreferences {
         context.dataStore.edit { editor ->
             editor[stringPreferencesKey(KEY_MENTOR_TYPE)] = prefs.mentorType.name
             editor[stringPreferencesKey(KEY_MENTOR_NAME)] = prefs.mentorName
+            editor[stringPreferencesKey(KEY_USER_NAME)] = prefs.userName
             editor[booleanPreferencesKey(KEY_ONBOARDING_COMPLETED)] = prefs.isOnboardingCompleted
         }
     }

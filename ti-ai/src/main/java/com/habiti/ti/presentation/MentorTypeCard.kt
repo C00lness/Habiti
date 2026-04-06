@@ -4,7 +4,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -17,9 +16,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.habiti.core.ai.MentorType
+import com.habiti.ti.R
 
 @Composable
 fun MentorTypeCard(
@@ -54,18 +55,34 @@ fun MentorTypeCard(
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = if (type == MentorType.MALE) "🧘‍♂️" else "🧘‍♀️",
-                    fontSize = MaterialTheme.typography.displayMedium.fontSize
-                )
+                    text = when(type) {
+                        MentorType.MALE -> stringResource(R.string.mentor_man_logo)
+                        MentorType.FEMALE -> stringResource(R.string.mentor_woman_logo)
+                        MentorType.ANONYMOUS -> stringResource(R.string.mentor_finance_logo)
+                        MentorType.CAT -> stringResource(R.string.mentor_cat_logo)
+                    },
+                    fontSize = MaterialTheme.typography.displayMedium.fontSize)
                 Spacer(modifier = Modifier.height(12.dp))
+
                 Text(
-                    text = if (type == MentorType.MALE) "Мужчина" else "Женщина",
+                    text = when(type) {
+                        MentorType.MALE -> stringResource(R.string.mentor_man)
+                        MentorType.FEMALE -> stringResource(R.string.mentor_woman)
+                        MentorType.ANONYMOUS -> stringResource(R.string.mentor_finance)
+                        MentorType.CAT -> stringResource(R.string.mentor_cat)
+                    },
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
                 )
                 Spacer(modifier = Modifier.height(4.dp))
+
                 Text(
-                    text = if (type == MentorType.MALE) "Мудрый наставник" else "Добрая наставница",
+                    text = when(type) {
+                        MentorType.MALE -> stringResource(R.string.mentor_man_desc)
+                        MentorType.FEMALE -> stringResource(R.string.mentor_woman_desc)
+                        MentorType.ANONYMOUS -> stringResource(R.string.mentor_finance_desc)
+                        MentorType.CAT -> stringResource(R.string.mentor_cat_desc)
+                    },
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

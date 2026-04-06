@@ -3,17 +3,26 @@ package com.habiti.ti.impl
 import android.content.Context
 import com.habiti.ti.R
 import com.habiti.core.ai.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-class TiMotivatorImpl(
-    private val context: Context,
-    userPreferencesFlow: Flow<UserPreferences>
-) : TiMotivator {
+class TiMotivatorImpl(private val context: Context, userPreferencesFlow: Flow<UserPreferences>) : TiMotivator {
 
     private var mentorName: String = runBlocking { userPreferencesFlow.first().mentorName }
-
+    private var mentorType: MentorType = runBlocking { userPreferencesFlow.first().mentorType }
+    init {
+        // Подписываемся на изменения в настройках
+        CoroutineScope(Dispatchers.IO).launch {
+            userPreferencesFlow.collect { prefs ->
+                mentorName = prefs.mentorName
+                mentorType = prefs.mentorType
+            }
+        }
+    }
     override fun getMessage(context: MessageContext): TiMessage {
         val name = mentorName
         return when (context) {
