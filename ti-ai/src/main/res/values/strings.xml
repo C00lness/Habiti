@@ -53,7 +53,7 @@
 
     <string name="mentor_man">Мужчина</string>
     <string name="mentor_woman">Женщина</string>
-    <string name="mentor_finance">Твой помощник</string>
+    <string name="mentor_finance">AI помощник</string>
     <string name="mentor_cat">Котик</string>
 
     <string name="mentor_man_logo">🏌️‍♀️</string>
@@ -63,10 +63,11 @@
 
     <string name="mentor_man_desc">Мудрый сильный наставник</string>
     <string name="mentor_woman_desc">Добрая независимая наставница</string>
-    <string name="mentor_finance_desc">Создай своего помощника</string>
+    <string name="mentor_finance_desc">Всего 499Р единоразово</string>
     <string name="mentor_cat_desc">Заботливый и уютный компаньон</string>
 
     <string name="mentor_settings">Настройки помощника</string>
     <string name="back">Назад</string>
     <string name="save">Сохранить</string>
+    <string name="cancel">Отмена</string>
 </resources>

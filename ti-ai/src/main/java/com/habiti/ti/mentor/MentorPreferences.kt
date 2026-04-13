@@ -27,6 +27,8 @@ object MentorPreferences {
                 mentorType = when (prefs[stringPreferencesKey(KEY_MENTOR_TYPE)]) {
                     MentorType.MALE.name -> MentorType.MALE
                     MentorType.FEMALE.name -> MentorType.FEMALE
+                    MentorType.CAT.name -> MentorType.CAT
+                    MentorType.ANONYMOUS.name -> MentorType.ANONYMOUS
                     else -> MentorType.MALE
                 },
                 userName = prefs[stringPreferencesKey(KEY_USER_NAME)] ?: context.getString(R.string.user_name_default),

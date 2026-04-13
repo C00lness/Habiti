@@ -2,6 +2,7 @@ package com.habiti.ti.impl
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import com.habiti.ti.R
 import com.habiti.core.ai.*
 import kotlinx.coroutines.CoroutineScope
@@ -22,6 +23,7 @@ class TiMotivatorImpl(private val context: Context, userPreferencesFlow: Flow<Us
             userPreferencesFlow.collect { prefs ->
                 mentorName = prefs.mentorName
                 mentorType = prefs.mentorType
+                userName = prefs.userName
             }
         }
     }
@@ -32,7 +34,7 @@ class TiMotivatorImpl(private val context: Context, userPreferencesFlow: Flow<Us
             is MessageContext.Completed -> {
                 val messages = this.context.resources.getStringArray(R.array.complete_messages)
                 val randomMessage = messages.random()
-                TiMessage("$mentorName: $userName $randomMessage 🎯", TiEmotion.HAPPY)
+                TiMessage("$userName, $randomMessage 🎯", TiEmotion.HAPPY)
             }
             is MessageContext.Streak -> {
                 val streak = context.streak

@@ -56,7 +56,6 @@ fun MentorSettingsScreen(
                         .padding(16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    // Здесь будет анимация
                     MentorAvatar(
                         mentorType = selectedType,
                         modifier = Modifier.size(100.dp)
@@ -79,7 +78,6 @@ fun MentorSettingsScreen(
                 }
             }
 
-            // Выбор пола
             Text("Выберите наставника", style = MaterialTheme.typography.titleMedium)
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -111,7 +109,6 @@ fun MentorSettingsScreen(
                 )
             }
 
-            // Имя
             OutlinedTextField(
                 value = name,
                 onValueChange = { name = it },
@@ -131,7 +128,7 @@ fun MentorSettingsScreen(
                     onClick = onBack,
                     modifier = Modifier.weight(1f)
                 ) {
-                    Text("Отмена")
+                    Text(stringResource(R.string.cancel))
                 }
                 Button(
                     onClick = {
