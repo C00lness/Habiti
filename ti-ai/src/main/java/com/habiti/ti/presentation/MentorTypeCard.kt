@@ -63,6 +63,7 @@ fun MentorTypeCard(
                         MentorType.FEMALE -> stringResource(R.string.mentor_woman_logo)
                         MentorType.ANONYMOUS -> stringResource(R.string.mentor_finance_logo)
                         MentorType.CAT -> stringResource(R.string.mentor_cat_logo)
+                        MentorType.MR_STRICK -> stringResource(R.string.mentor_mr_strick_logo)
                     },
                     fontSize = MaterialTheme.typography.displayMedium.fontSize)
                 Spacer(modifier = Modifier.height(12.dp))
@@ -73,6 +74,7 @@ fun MentorTypeCard(
                         MentorType.FEMALE -> stringResource(R.string.mentor_woman)
                         MentorType.ANONYMOUS -> stringResource(R.string.mentor_finance)
                         MentorType.CAT -> stringResource(R.string.mentor_cat)
+                        MentorType.MR_STRICK -> stringResource(R.string.mentor_mr_strick)
                     },
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
@@ -85,6 +87,7 @@ fun MentorTypeCard(
                         MentorType.FEMALE -> stringResource(R.string.mentor_woman_desc)
                         MentorType.ANONYMOUS -> stringResource(R.string.mentor_finance_desc)
                         MentorType.CAT -> stringResource(R.string.mentor_cat_desc)
+                        MentorType.MR_STRICK -> stringResource(R.string.mentor_mr_strick_desc)
                     },
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant

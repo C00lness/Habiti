@@ -1,19 +1,21 @@
 package com.habiti.ti.presentation
 
-import androidx.compose.material.icons.filled.Check
-
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.habiti.core.ai.MentorType
 import com.habiti.core.ai.UserPreferences
 import com.habiti.ti.R
+import com.habiti.ti.mentor.PromoPreferences
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MentorSettingsScreen(
@@ -21,9 +23,17 @@ fun MentorSettingsScreen(
     onSave: (UserPreferences) -> Unit,
     onBack: () -> Unit
 ) {
+    val context = LocalContext.current
+    val promoPrefs = remember { PromoPreferences(context) }
+    val isMrStrickUnlocked = promoPrefs.isMrStrickUnlocked
+
     var selectedType by remember { mutableStateOf(currentPrefs.mentorType) }
     var name by remember { mutableStateOf(currentPrefs.mentorName) }
 
+    // Состояния для промокода
+    var promoCode by remember { mutableStateOf("") }
+    var promoMessage by remember { mutableStateOf<String?>(null) }
+    val defaultMentorName = stringResource(R.string.mentor_name_default)
     Scaffold(
         topBar = {
             TopAppBar(
@@ -66,8 +76,7 @@ fun MentorSettingsScreen(
                         style = MaterialTheme.typography.titleLarge
                     )
                     Text(
-                        text = when (selectedType)
-                        {
+                        text = when (selectedType) {
                             MentorType.MALE -> stringResource(R.string.mentor_man)
                             MentorType.FEMALE -> stringResource(R.string.mentor_woman)
                             MentorType.CAT -> stringResource(R.string.mentor_cat)
@@ -78,7 +87,74 @@ fun MentorSettingsScreen(
                 }
             }
 
+            // ========== БЛОК ПРОМОКОДА ==========
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer
+                )
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Text(
+                        text = "Активация промокода",
+                        style = MaterialTheme.typography.titleMedium
+                    )
+
+                    // Если Мистер Стрик уже разблокирован — показываем сообщение
+                    if (isMrStrickUnlocked) {
+                        Text(
+                            text = "✅ Мистер Стрик уже разблокирован!",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    } else {
+                        OutlinedTextField(
+                            value = promoCode,
+                            onValueChange = { promoCode = it.uppercase() },
+                            label = { Text("Введите промокод") },
+                            placeholder = { Text("BOXER100") },
+                            singleLine = true,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        Button(
+                            onClick = {
+                                if (promoCode == "BOXER100") {
+                                    promoPrefs.isMrStrickUnlocked = true
+                                    promoMessage = "Промокод активирован! Мистер Стрик добавлен в выбор наставников."
+                                } else {
+                                    promoMessage = "Неверный промокод"
+                                }
+                            },
+                            modifier = Modifier.fillMaxWidth(),
+                            enabled = promoCode.isNotBlank()
+                        ) {
+                            Text("Активировать")
+                        }
+
+                        promoMessage?.let {
+                            Text(
+                                text = it,
+                                style = MaterialTheme.typography.bodySmall,
+                                color = if (it.contains("активирован"))
+                                    MaterialTheme.colorScheme.primary
+                                else
+                                    MaterialTheme.colorScheme.error
+                            )
+                        }
+                    }
+                }
+            }
+            // ========== КОНЕЦ БЛОКА ПРОМОКОДА ==========
+
             Text("Выберите наставника", style = MaterialTheme.typography.titleMedium)
+
+            // Ряд с выбором наставника (добавляем Мистера Стрика, если разблокирован)
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -109,6 +185,23 @@ fun MentorSettingsScreen(
                 )
             }
 
+            // Мистер Стрик — отдельный ряд, показывается только если разблокирован
+            if (isMrStrickUnlocked) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    FilterChip(
+                        selected = selectedType == MentorType.MR_STRICK,
+                        onClick = { selectedType = MentorType.MR_STRICK },
+                        label = { Text("Мистер Стрик") },
+                        leadingIcon = if (selectedType == MentorType.MR_STRICK) {
+                            { Icon(Icons.Default.Check, contentDescription = null) }
+                        } else null
+                    )
+                }
+            }
+
             OutlinedTextField(
                 value = name,
                 onValueChange = { name = it },
@@ -117,8 +210,7 @@ fun MentorSettingsScreen(
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
-            val mentorName = (stringResource(R.string.mentor_name_default))
-            val save = (stringResource(R.string.save))
+
             // Кнопки
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -132,17 +224,22 @@ fun MentorSettingsScreen(
                 }
                 Button(
                     onClick = {
+                        val finalName = when {
+                            selectedType == MentorType.MR_STRICK -> "Мистер Стрик"
+                            name.isNotBlank() -> name
+                            else -> defaultMentorName
+                        }
                         onSave(
                             UserPreferences(
                                 mentorType = selectedType,
-                                mentorName = name.ifBlank { mentorName },
+                                mentorName = finalName,
                                 isOnboardingCompleted = true
                             )
                         )
                     },
                     modifier = Modifier.weight(1f)
                 ) {
-                    Text(save)
+                    Text(stringResource(R.string.save))
                 }
             }
         }

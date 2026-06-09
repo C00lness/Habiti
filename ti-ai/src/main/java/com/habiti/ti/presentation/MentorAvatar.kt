@@ -14,7 +14,6 @@ fun MentorAvatar(
 ) {
     // Запоминаем выбранный вариант анимации при первом создании
     val animationVariant = remember {
-        // Рандомно выбираем 1 или 2
         Random.nextInt(1, 5)  // возвращает 1 или 2
     }
 
@@ -40,6 +39,8 @@ fun MentorAvatar(
             1 -> R.raw.cat
             else -> R.raw.cat_2
         }
+
+        MentorType.MR_STRICK -> R.raw.bear
     }
 
     val composition by rememberLottieComposition(
