@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -13,10 +14,24 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.nativetools.NativeLib
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val sum = NativeLib().add(5, 3)
+        Log.d("JNI_Test", "5 + 3 = $sum")
+
+        val message = NativeLib().stringFromJNI()
+        Log.d("JNI_Test", message)
+
+        val completions = intArrayOf(1, 1, 0, 1, 0, 1, 1)  // 7 дней
+        val stability = NativeLib().calculateStability(completions)
+        Log.d("Stability", "Стабильность привычки: $stability%")
+
+
         enableEdgeToEdge()
         requestNotificationPermission()
         setContent {

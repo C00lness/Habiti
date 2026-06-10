@@ -75,4 +75,5 @@ dependencies {
     implementation(libs.koin.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.compose.material.icons.extended)
+    implementation(project(":nativetools"))
 }
