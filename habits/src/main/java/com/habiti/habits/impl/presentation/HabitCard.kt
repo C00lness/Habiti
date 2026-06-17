@@ -29,7 +29,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.habiti.habits.impl.domain.Habit
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Analytics
 import androidx.compose.material3.Checkbox
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -40,12 +45,15 @@ import com.habiti.habits.impl.R
 @Composable
 fun HabitCard(
     habit: Habit,
+    onAnalyze: () -> Unit,
     onClick: () -> Unit,
     onCheckedChange: (Boolean) -> Unit,
     onDelete: () -> Unit,
     onEdit: () -> Unit,
+    correlation: Double? = null,
     modifier: Modifier = Modifier
 ) {
+    var hideCorrelation by remember { mutableStateOf(true) }
     Card(
         modifier = modifier
             .clip(RoundedCornerShape(16.dp))
@@ -82,7 +90,6 @@ fun HabitCard(
                         fontSize = 28.sp
                     )
                 }
-
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                     verticalAlignment = Alignment.CenterVertically
@@ -116,9 +123,30 @@ fun HabitCard(
                             modifier = Modifier.size(18.dp)
                         )
                     }
+                    IconButton(onClick = {
+                        onAnalyze
+                        hideCorrelation = !hideCorrelation
+                    }) {
+                        Icon(Icons.Default.Analytics, contentDescription = stringResource(R.string.analyzer))
+                    }
                 }
             }
+            if (correlation != null) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(100.dp),
+                            contentAlignment = Alignment.Center
 
+                ) {
+                    if (!hideCorrelation) {
+                        CorrelationCard(
+                            correlation = correlation,
+                            modifier = Modifier.padding(top = 4.dp)
+                        )
+                    }
+                }
+            }
             Text(
                 text = habit.name,
                 style = MaterialTheme.typography.titleMedium,

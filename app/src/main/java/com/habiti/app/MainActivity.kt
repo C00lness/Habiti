@@ -29,8 +29,12 @@ class MainActivity : ComponentActivity() {
 
         val completions = intArrayOf(1, 1, 0, 1, 0, 1, 1)  // 7 дней
         val stability = NativeLib().calculateStability(completions)
-        Log.d("Stability", "Стабильность привычки: $stability%")
+        Log.d("JNI_Test", "Стабильность привычки: $stability%")
 
+        val days = doubleArrayOf(1.0, 2.0, 3.0, 4.0, 5.0)
+        val completed = doubleArrayOf(0.0, 1.0, 1.0, 1.0, 1.0)
+        val corr = NativeLib().calculateCorrelation(days, completed)
+        Log.d("JNI_Test", "r = $corr")
 
         enableEdgeToEdge()
         requestNotificationPermission()

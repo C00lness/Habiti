@@ -2,6 +2,7 @@ package com.habiti.habits.impl.di
 
 import android.os.ext.SdkExtensions
 import androidx.annotation.RequiresExtension
+import com.habiti.habits.impl.data.HabitHistoryRepository
 import com.habiti.habits.impl.data.HabitRepository
 import com.habiti.habits.impl.data.HabitsDb
 import com.habiti.habits.impl.presentation.HabitsViewModel
@@ -14,5 +15,6 @@ val habitsModule = module {
     single { HabitsDb.getInstance(androidContext()) }
     single { get<HabitsDb>().habitDao() }
     single { HabitRepository(get(), androidContext()) }
-    viewModel { HabitsViewModel(get(), get()) }
+    single { HabitHistoryRepository(androidContext()) }
+    viewModel { HabitsViewModel(get(), get(), get()) }
 }

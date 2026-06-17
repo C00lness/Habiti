@@ -74,4 +74,6 @@ dependencies {
     ksp(libs.androidx.room.compiler)
 
     implementation(libs.androidx.compose.material.icons.extended)
+    implementation(libs.androidx.datastore.preferences.v100)
+    implementation(project(":nativetools"))
 }

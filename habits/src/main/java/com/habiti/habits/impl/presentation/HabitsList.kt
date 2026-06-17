@@ -15,6 +15,8 @@ fun HabitsList(
     onHabitChecked: (String, Boolean) -> Unit,
     onDeleteHabit: (Habit) -> Unit,
     onEditHabit: (Habit) -> Unit,
+    onAnalyze: (String) -> Unit,
+    correlation:(String) -> Double,
     modifier: Modifier = Modifier
 ) {
     var showDeleteDialog by remember { mutableStateOf(false) }
@@ -42,6 +44,8 @@ fun HabitsList(
             onHabitChecked = onHabitChecked,
             onDeleteHabit = onDeleteHabit,
             onEditHabit = onEditHabit,
+            onAnalyze = onAnalyze,
+            correlation = correlation,
             modifier = modifier
         )
         else -> GridHabitsLayout(
@@ -50,6 +54,8 @@ fun HabitsList(
             onHabitChecked = onHabitChecked,
             onDeleteHabit = onDeleteHabit,
             onEditHabit = onEditHabit,
+            onAnalyze = onAnalyze,
+            correlation = correlation,
             modifier = modifier
         )
     }

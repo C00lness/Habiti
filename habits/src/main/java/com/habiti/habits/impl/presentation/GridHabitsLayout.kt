@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.google.android.material.color.utilities.DislikeAnalyzer
 import com.habiti.habits.impl.domain.Habit
 
 @Composable
@@ -22,6 +23,8 @@ fun GridHabitsLayout(
     onHabitChecked: (String, Boolean) -> Unit,
     onDeleteHabit: (Habit) -> Unit,
     onEditHabit: (Habit) -> Unit,
+    onAnalyze: (String) -> Unit,
+    correlation: (String) -> Double,
     modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(
@@ -34,10 +37,12 @@ fun GridHabitsLayout(
         items(habits, key = { it.id }) { habit ->
             HabitCard(
                 habit = habit,
+                onAnalyze = { onAnalyze(habit.id) },
                 onClick = { onHabitClick(habit.id) },
                 onCheckedChange = { checked -> onHabitChecked(habit.id, checked) },
                 onDelete = { onDeleteHabit(habit) },
                 onEdit = { onEditHabit(habit) },
+                correlation = correlation(habit.id),
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(1f)

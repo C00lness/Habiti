@@ -14,4 +14,5 @@ public class NativeLib {
     public native String stringFromJNI();
     public native int add(int a, int b);
     public native double calculateStability(int[] completions);
+    public native double calculateCorrelation(double[] days, double[] completed);
 }

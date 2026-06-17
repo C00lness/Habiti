@@ -12,6 +12,7 @@
     <string name="error">Ошибка\"%s\"</string>
     <string name="loading">Загрузка...</string>
     <string name="ok">OK...</string>
+    <string name="analyzer">Анализ</string>
     <!-- Экран привычек -->
     <string name="habits_title">Мои привычки</string>
     <string name="streak_days">Стрик: %d дней</string>

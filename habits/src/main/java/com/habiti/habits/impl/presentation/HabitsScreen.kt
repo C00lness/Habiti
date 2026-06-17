@@ -106,7 +106,9 @@ fun HabitsListScreen(
                         viewModel.onHabitChecked(id, checked)
                     },
                     onDeleteHabit = { viewModel.onDeleteHabit(it) },
-                    onEditHabit = {viewModel.onEditHabit(it)}
+                    onEditHabit = {viewModel.onEditHabit(it)},
+                    onAnalyze = {viewModel.analyzeHabit(it)},
+                    correlation = {viewModel.getCorrelationForHabit(it)?:0.0}
                 )
             }
 

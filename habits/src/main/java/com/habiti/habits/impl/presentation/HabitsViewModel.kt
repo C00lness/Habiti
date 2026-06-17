@@ -7,6 +7,7 @@ import com.habiti.core.ai.MessageContext
 import com.habiti.core.ai.TiMessage
 import com.habiti.core.ai.TiMotivator
 import com.habiti.habits.impl.common.isMilestoneStreak
+import com.habiti.habits.impl.data.HabitHistoryRepository
 import com.habiti.habits.impl.data.HabitRepository
 import com.habiti.habits.impl.domain.Habit
 import kotlinx.coroutines.delay
@@ -16,9 +17,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import com.example.nativetools.NativeLib
 
 class HabitsViewModel( private val repository: HabitRepository,
-                       private val tiMotivator: TiMotivator
+                       private val tiMotivator: TiMotivator,
+                       private val historyRepository: HabitHistoryRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<HabitsUiState>(HabitsUiState.Loading)
@@ -35,6 +38,7 @@ class HabitsViewModel( private val repository: HabitRepository,
 
     private val _tiMessage = MutableStateFlow<TiMessage?>(null)
     val tiMessage: StateFlow<TiMessage?> = _tiMessage.asStateFlow()
+    private val correlationMap = mutableMapOf<String, Double?>()
 
     fun getHabitName(habitId: String): String? {
         val state = _uiState.value
@@ -114,6 +118,7 @@ class HabitsViewModel( private val repository: HabitRepository,
                 val oldHabit = repository.getHabitById(habitId)
                 repository.incrementProgress(habitId)
                 repository.updateLastCompletedDate(habitId, System.currentTimeMillis())
+                historyRepository.addRecord(habitId, true)
                 val newHabit = repository.getHabitById(habitId)
                 val habitName = newHabit?.name ?: return@launch
                 val completedMsg = tiMotivator.getMessage(MessageContext.Completed(habitName))
@@ -127,13 +132,6 @@ class HabitsViewModel( private val repository: HabitRepository,
                 }
                 delay(5000)
                 _tiMessage.value = null
-
-//                if (habitName != null) {
-//                    val msg = tiMotivator.getMessage(MessageContext.Completed(habitName))
-//                    _tiMessage.value = msg
-//                    delay(10000)
-//                    _tiMessage.value = null
-//                }
             }
         }
     }
@@ -181,6 +179,50 @@ class HabitsViewModel( private val repository: HabitRepository,
                     _tiMessage.value = null
                 }
             }
+        }
+    }
+
+    // Вызов нативной корреляции (например, по кнопке)
+    fun analyzeHabit(habitId: String) {
+        viewModelScope.launch {
+            val history = historyRepository.getLastNDays(habitId, 30)
+            if (history.isEmpty()) {
+                Log.d("JNI_Test", "Нет данных для анализа")
+                return@launch
+            }
+
+            // Подготовка данных для нативной функции
+            val x = history.mapIndexed { index, _ -> index.toDouble() }.toDoubleArray() // дни
+            val y = history.map { if (it.second) 1.0 else 0.0 }.toDoubleArray() // выполнение
+
+            val correlation = NativeLib().calculateCorrelation(x, y)
+            Log.d("JNI_Test", "Корреляция для привычки $habitId: $correlation")
+
+            // Можно показать в UI
+            //_uiState.value = HabitsUiState.Success(/* обновлённый список с метрикой */)
+        }
+    }
+
+    fun getCorrelationForHabit(habitId: String): Double? {
+        // Здесь нужно синхронно получить последние данные (или использовать StateFlow)
+        // Для упрощения можно хранить map корреляций в ViewModel
+        return correlationMap[habitId]
+    }
+
+    // Обновлять корреляцию при каждом выполнении или по запросу
+    private fun updateCorrelation(habitId: String) {
+        viewModelScope.launch {
+            val history = historyRepository.getLastNDays(habitId, 30)
+            if (history.size < 3) {
+                correlationMap[habitId] = null
+                return@launch
+            }
+            val x = history.mapIndexed { index, _ -> index.toDouble() }.toDoubleArray()
+            val y = history.map { if (it.second) 1.0 else 0.0 }.toDoubleArray()
+            val correlation = NativeLib().calculateCorrelation(x, y)
+            correlationMap[habitId] = correlation
+            // Обновить UI (если нужно)
+            _uiState.value = _uiState.value // триггер обновления
         }
     }
 }
