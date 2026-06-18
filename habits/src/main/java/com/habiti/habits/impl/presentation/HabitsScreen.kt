@@ -24,7 +24,7 @@ import com.habiti.habits.impl.R
 fun HabitsScreen(viewModel: HabitsViewModel) {
     val uiState by viewModel.uiState.collectAsState()
     val navigateToAdd by viewModel.navigateToAdd.collectAsState()
-    val habitToEdit by viewModel.habitToEdit.collectAsState()  // добавили
+    val habitToEdit by viewModel.habitToEdit.collectAsState()
 
     when {
         navigateToAdd -> {
@@ -78,6 +78,7 @@ fun HabitsListScreen(
     viewModel: HabitsViewModel,
     uiState: HabitsUiState
 ) {
+    val correlationMap by viewModel.correlationMap.collectAsState()
     Column {
         Row(
             modifier = Modifier
@@ -108,7 +109,7 @@ fun HabitsListScreen(
                     onDeleteHabit = { viewModel.onDeleteHabit(it) },
                     onEditHabit = {viewModel.onEditHabit(it)},
                     onAnalyze = {viewModel.analyzeHabit(it)},
-                    correlation = {viewModel.getCorrelationForHabit(it)?:0.0}
+                    correlation = {habitId -> correlationMap[habitId] ?: 0.0}
                 )
             }
 

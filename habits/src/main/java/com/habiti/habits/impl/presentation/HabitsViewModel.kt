@@ -38,7 +38,8 @@ class HabitsViewModel( private val repository: HabitRepository,
 
     private val _tiMessage = MutableStateFlow<TiMessage?>(null)
     val tiMessage: StateFlow<TiMessage?> = _tiMessage.asStateFlow()
-    private val correlationMap = mutableMapOf<String, Double?>()
+    private val _correlationMap = MutableStateFlow<Map<String, Double?>>(emptyMap())
+    val correlationMap: StateFlow<Map<String, Double?>> = _correlationMap.asStateFlow()
 
     fun getHabitName(habitId: String): String? {
         val state = _uiState.value
@@ -196,33 +197,35 @@ class HabitsViewModel( private val repository: HabitRepository,
             val y = history.map { if (it.second) 1.0 else 0.0 }.toDoubleArray() // выполнение
 
             val correlation = NativeLib().calculateCorrelation(x, y)
-            Log.d("JNI_Test", "Корреляция для привычки $habitId: $correlation")
+            Log.d("JNI_Test", "Correlation $habitId: $correlation")
 
+            updateCorrelation(habitId)
             // Можно показать в UI
             //_uiState.value = HabitsUiState.Success(/* обновлённый список с метрикой */)
         }
     }
 
     fun getCorrelationForHabit(habitId: String): Double? {
-        // Здесь нужно синхронно получить последние данные (или использовать StateFlow)
-        // Для упрощения можно хранить map корреляций в ViewModel
-        return correlationMap[habitId]
+        return _correlationMap.value[habitId]
     }
 
-    // Обновлять корреляцию при каждом выполнении или по запросу
     private fun updateCorrelation(habitId: String) {
         viewModelScope.launch {
             val history = historyRepository.getLastNDays(habitId, 30)
             if (history.size < 3) {
-                correlationMap[habitId] = null
+                _correlationMap.value = _correlationMap.value.toMutableMap().apply {
+                    put(habitId, null)
+                }
                 return@launch
             }
             val x = history.mapIndexed { index, _ -> index.toDouble() }.toDoubleArray()
             val y = history.map { if (it.second) 1.0 else 0.0 }.toDoubleArray()
             val correlation = NativeLib().calculateCorrelation(x, y)
-            correlationMap[habitId] = correlation
-            // Обновить UI (если нужно)
-            _uiState.value = _uiState.value // триггер обновления
+
+            // Обновляем карту
+            _correlationMap.value = _correlationMap.value.toMutableMap().apply {
+                put(habitId, correlation)
+            }
         }
     }
 }

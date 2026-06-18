@@ -21,15 +21,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val sum = NativeLib().add(5, 3)
-        Log.d("JNI_Test", "5 + 3 = $sum")
-
-        val message = NativeLib().stringFromJNI()
-        Log.d("JNI_Test", message)
-
-        val completions = intArrayOf(1, 1, 0, 1, 0, 1, 1)  // 7 дней
-        val stability = NativeLib().calculateStability(completions)
-        Log.d("JNI_Test", "Стабильность привычки: $stability%")
 
         val days = doubleArrayOf(1.0, 2.0, 3.0, 4.0, 5.0)
         val completed = doubleArrayOf(0.0, 1.0, 1.0, 1.0, 1.0)
