@@ -139,13 +139,13 @@ fun OnboardingScreen(
                             onClick = {selectedType = MentorType.CAT; error = null  },
                             modifier = Modifier.weight(1f)
                         )
-                        MentorTypeCard(
-                            type = MentorType.ANONYMOUS,
-                            isSelected = selectedType == MentorType.ANONYMOUS,
-                            onClick = { },
-                            true,
-                            modifier = Modifier.weight(1f)
-                        )
+//                        MentorTypeCard(
+//                            type = MentorType.ANONYMOUS,
+//                            isSelected = selectedType == MentorType.ANONYMOUS,
+//                            onClick = { },
+//                            true,
+//                            modifier = Modifier.weight(1f)
+//                        )
                     }
                     OutlinedTextField(
                         value = mentorName,

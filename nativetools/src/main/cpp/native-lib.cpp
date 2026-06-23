@@ -66,6 +66,7 @@ Java_com_example_nativetools_NativeLib_calculateCorrelation(
         return 0.0;
     }
 
+    // 👇 Получаем данные
     jdouble* x = env->GetDoubleArrayElements(xArray, nullptr);
     jdouble* y = env->GetDoubleArrayElements(yArray, nullptr);
 
@@ -75,7 +76,19 @@ Java_com_example_nativetools_NativeLib_calculateCorrelation(
         return 0.0;
     }
 
-    // Средние
+    // 👇 Если данных мало — возвращаем ПРОЦЕНТ ВЫПОЛНЕНИЯ (стабильность)
+    if (length < 3) {
+        double sum = 0.0;
+        for (int i = 0; i < length; i++) {
+            sum += y[i];
+        }
+        double result = (sum / length) * 100.0; // 0..100%
+        env->ReleaseDoubleArrayElements(xArray, x, JNI_ABORT);
+        env->ReleaseDoubleArrayElements(yArray, y, JNI_ABORT);
+        return result;
+    }
+
+    // 👇 Для 3+ дней — стандартная корреляция Пирсона
     double sumX = 0.0, sumY = 0.0;
     for (int i = 0; i < length; i++) {
         sumX += x[i];
@@ -84,7 +97,6 @@ Java_com_example_nativetools_NativeLib_calculateCorrelation(
     double meanX = sumX / length;
     double meanY = sumY / length;
 
-    // Суммы отклонений
     double sumXY = 0.0, sumX2 = 0.0, sumY2 = 0.0;
     for (int i = 0; i < length; i++) {
         double dx = x[i] - meanX;
@@ -98,5 +110,9 @@ Java_com_example_nativetools_NativeLib_calculateCorrelation(
     env->ReleaseDoubleArrayElements(yArray, y, JNI_ABORT);
 
     double denominator = sqrt(sumX2 * sumY2);
-    return (denominator == 0.0) ? 0.0 : sumXY / denominator;
+    if (denominator == 0.0) return 0.0;
+
+    // Преобразуем корреляцию (-1..1) в проценты (0..100)
+    double correlation = sumXY / denominator;
+    return (correlation + 1.0) / 2.0 * 100.0;
 }

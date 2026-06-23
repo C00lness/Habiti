@@ -16,5 +16,5 @@ val habitsModule = module {
     single { get<HabitsDb>().habitDao() }
     single { HabitRepository(get(), androidContext()) }
     single { HabitHistoryRepository(androidContext()) }
-    viewModel { HabitsViewModel(get(), get(), get()) }
+    viewModel { HabitsViewModel(get(), get(), get(), get()) }
 }

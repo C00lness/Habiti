@@ -56,18 +56,21 @@
     <string name="mentor_finance">AI помощник</string>
     <string name="mentor_cat">Котик</string>
     <string name="mentor_mr_strick">Мистер Стрик</string>
+    <string name="mentor_miss_strick">Привычка жениться</string>
 
     <string name="mentor_man_logo">🏌️‍♀️</string>
     <string name="mentor_woman_logo">👄</string>
     <string name="mentor_finance_logo">💰</string>
     <string name="mentor_cat_logo">🐱</string>
     <string name="mentor_mr_strick_logo">🐻‍</string>
+    <string name="mentor_miss_strick_logo">💃‍</string>
 
     <string name="mentor_man_desc">Мудрый сильный наставник</string>
     <string name="mentor_woman_desc">Добрая независимая наставница</string>
     <string name="mentor_finance_desc">Всего 499Р единоразово</string>
     <string name="mentor_cat_desc">Заботливый и уютный компаньон</string>
     <string name="mentor_mr_strick_desc">Строгий но справедливый тренер</string>
+    <string name="mentor_miss_strick_desc">Я сделаю тебя лучше, просто поверь мне</string>
 
     <string name="mentor_settings">Настройки помощника</string>
     <string name="back">Назад</string>

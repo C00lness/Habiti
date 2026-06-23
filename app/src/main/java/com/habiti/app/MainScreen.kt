@@ -71,7 +71,8 @@ fun MainScreen() {
                     showSettings = false
                 }
             },
-            onBack = { showSettings = false }
+            onBack = { showSettings = false },
+            maxStreak = viewModel.getMaxStreak()
         )
     } else {
         Scaffold(

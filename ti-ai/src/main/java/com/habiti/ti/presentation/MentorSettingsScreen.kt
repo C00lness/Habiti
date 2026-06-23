@@ -7,11 +7,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.*
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.habiti.core.ai.MentorType
 import com.habiti.core.ai.UserPreferences
@@ -23,11 +25,13 @@ import com.habiti.ti.mentor.PromoPreferences
 fun MentorSettingsScreen(
     currentPrefs: UserPreferences,
     onSave: (UserPreferences) -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    maxStreak: Int = 0
 ) {
     val context = LocalContext.current
     val promoPrefs = remember { PromoPreferences(context) }
     val isMrStrickUnlocked = promoPrefs.isMrStrickUnlocked
+    val isDancingWomanUnlocked = promoPrefs.isDancingWomanUnlocked
 
     var selectedType by remember { mutableStateOf(currentPrefs.mentorType) }
     var name by remember { mutableStateOf(currentPrefs.mentorName) }
@@ -56,6 +60,54 @@ fun MentorSettingsScreen(
 
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
+            // Блок с Мисс Привычка
+            if (isDancingWomanUnlocked) {
+                // ... показываем карточку выбора (как раньше)
+            } else {
+                // 👇 Показываем прогресс до разблокировки
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant
+                    )
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
+                    ) {
+                        Text(
+                            text = "💃 Мисс Привычка",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = "Выполняйте любую привычку $maxStreak/5 дней подряд",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        LinearProgressIndicator(
+                        progress = { (maxStreak.toFloat() / 5f).coerceIn(0f, 1f) },
+                        modifier = Modifier
+                                                        .fillMaxWidth()
+                                                        .height(6.dp),
+                        color = MaterialTheme.colorScheme.primary,
+                        trackColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
+                        strokeCap = ProgressIndicatorDefaults.LinearStrokeCap,
+                        )
+                        if (maxStreak >= 5) {
+                            Text(
+                                text = "✅ Разблокирована!",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                        }
+                    }
+                }
+            }
             // Превью текущего наставника
             Card(
                 modifier = Modifier.fillMaxWidth(),
@@ -199,6 +251,22 @@ fun MentorSettingsScreen(
                         onClick = { selectedType = MentorType.MR_STRICK },
                         label = { Text("Мистер Стрик") },
                         leadingIcon = if (selectedType == MentorType.MR_STRICK) {
+                            { Icon(Icons.Default.Check, contentDescription = null) }
+                        } else null
+                    )
+                }
+            }
+
+            if (isDancingWomanUnlocked) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    FilterChip(
+                        selected = selectedType == MentorType.DANCING_WOMAN,
+                        onClick = { selectedType = MentorType.DANCING_WOMAN },
+                        label = { Text("Мисс Привычка") },
+                        leadingIcon = if (selectedType == MentorType.DANCING_WOMAN) {
                             { Icon(Icons.Default.Check, contentDescription = null) }
                         } else null
                     )

@@ -18,10 +18,12 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import com.example.nativetools.NativeLib
+import com.habiti.core.ai.MentorUnlocker
 
 class HabitsViewModel( private val repository: HabitRepository,
                        private val tiMotivator: TiMotivator,
-                       private val historyRepository: HabitHistoryRepository
+                       private val historyRepository: HabitHistoryRepository,
+                       private val mentorUnlocker: MentorUnlocker
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<HabitsUiState>(HabitsUiState.Loading)
@@ -131,6 +133,13 @@ class HabitsViewModel( private val repository: HabitRepository,
                     val streakMsg = tiMotivator.getMessage(MessageContext.Streak(habitName, newStreak))
                     _tiMessage.value = streakMsg
                 }
+                if (newStreak >= 5 && !mentorUnlocker.isDancingWomanUnlocked()) {
+                    mentorUnlocker.unlockDancingWoman()
+                    val unlockMsg = tiMotivator.getMessage(MessageContext.Completed("💃 Мисс Привычка теперь доступна!"))
+                    _tiMessage.value = unlockMsg
+                    delay(3000)
+                    _tiMessage.value = null
+                }
                 delay(5000)
                 _tiMessage.value = null
             }
@@ -212,12 +221,12 @@ class HabitsViewModel( private val repository: HabitRepository,
     private fun updateCorrelation(habitId: String) {
         viewModelScope.launch {
             val history = historyRepository.getLastNDays(habitId, 30)
-            if (history.size < 3) {
-                _correlationMap.value = _correlationMap.value.toMutableMap().apply {
-                    put(habitId, null)
-                }
-                return@launch
-            }
+//            if (history.size < 3) {
+//                _correlationMap.value = _correlationMap.value.toMutableMap().apply {
+//                    put(habitId, null)
+//                }
+//                return@launch
+//            }
             val x = history.mapIndexed { index, _ -> index.toDouble() }.toDoubleArray()
             val y = history.map { if (it.second) 1.0 else 0.0 }.toDoubleArray()
             val correlation = NativeLib().calculateCorrelation(x, y)
@@ -227,5 +236,13 @@ class HabitsViewModel( private val repository: HabitRepository,
                 put(habitId, correlation)
             }
         }
+    }
+
+    // Возвращает максимальный стрик среди всех привычек
+    fun getMaxStreak(): Int {
+        val state = _uiState.value
+        return if (state is HabitsUiState.Success) {
+            state.habits.maxOfOrNull { it.streak } ?: 0
+        } else 0
     }
 }
