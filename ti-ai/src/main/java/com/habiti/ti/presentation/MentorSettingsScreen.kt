@@ -108,39 +108,6 @@ fun MentorSettingsScreen(
                     }
                 }
             }
-            // Превью текущего наставника
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant
-                )
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    MentorAvatar(
-                        mentorType = selectedType,
-                        modifier = Modifier.size(100.dp)
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = if (name.isNotBlank()) name else stringResource(R.string.mentor_name_default),
-                        style = MaterialTheme.typography.titleLarge
-                    )
-                    Text(
-                        text = when (selectedType) {
-                            MentorType.MALE -> stringResource(R.string.mentor_man)
-                            MentorType.FEMALE -> stringResource(R.string.mentor_woman)
-                            MentorType.CAT -> stringResource(R.string.mentor_cat)
-                            else -> ""
-                        },
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                }
-            }
 
             // ========== БЛОК ПРОМОКОДА ==========
             Card(
@@ -206,6 +173,39 @@ fun MentorSettingsScreen(
                 }
             }
             // ========== КОНЕЦ БЛОКА ПРОМОКОДА ==========
+            // Превью текущего наставника
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant
+                )
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    MentorAvatar(
+                        mentorType = selectedType,
+                        modifier = Modifier.size(100.dp)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = if (name.isNotBlank()) name else stringResource(R.string.mentor_name_default),
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                    Text(
+                        text = when (selectedType) {
+                            MentorType.MALE -> stringResource(R.string.mentor_man)
+                            MentorType.FEMALE -> stringResource(R.string.mentor_woman)
+                            MentorType.CAT -> stringResource(R.string.mentor_cat)
+                            else -> ""
+                        },
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
 
             Text("Выберите наставника", style = MaterialTheme.typography.titleMedium)
 
@@ -238,14 +238,7 @@ fun MentorSettingsScreen(
                         { Icon(Icons.Default.Check, contentDescription = null) }
                     } else null
                 )
-            }
-
-            // Мистер Стрик — отдельный ряд, показывается только если разблокирован
-            if (isMrStrickUnlocked) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
+                if (isMrStrickUnlocked) {
                     FilterChip(
                         selected = selectedType == MentorType.MR_STRICK,
                         onClick = { selectedType = MentorType.MR_STRICK },
@@ -255,13 +248,7 @@ fun MentorSettingsScreen(
                         } else null
                     )
                 }
-            }
-
-            if (isDancingWomanUnlocked) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
+                if (isDancingWomanUnlocked) {
                     FilterChip(
                         selected = selectedType == MentorType.DANCING_WOMAN,
                         onClick = { selectedType = MentorType.DANCING_WOMAN },
@@ -272,6 +259,7 @@ fun MentorSettingsScreen(
                     )
                 }
             }
+
 
             OutlinedTextField(
                 value = name,

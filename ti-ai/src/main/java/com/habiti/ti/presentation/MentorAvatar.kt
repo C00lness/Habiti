@@ -41,7 +41,7 @@ fun MentorAvatar(
         }
 
         MentorType.MR_STRICK -> R.raw.bear
-        MentorType.DANCING_WOMAN -> R.raw.woman_shopping
+        MentorType.DANCING_WOMAN -> R.raw.japan_fitness_woman_3
     }
 
     val composition by rememberLottieComposition(
