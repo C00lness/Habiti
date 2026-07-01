@@ -1,6 +1,7 @@
 #include <jni.h>
 #include <android/log.h>
 #include <math.h>
+#include "renderer.h"
 
 #define LOG_TAG "NativeTools"
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
@@ -115,4 +116,35 @@ Java_com_example_nativetools_NativeLib_calculateCorrelation(
     // Преобразуем корреляцию (-1..1) в проценты (0..100)
     double correlation = sumXY / denominator;
     return (correlation + 1.0) / 2.0 * 100.0;
+}
+static Renderer gRenderer;
+extern "C" JNIEXPORT void JNICALL
+Java_com_example_nativetools_NativeLib_initRenderer(
+        JNIEnv* env,
+        jobject /* this */) {
+    gRenderer.init();
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_com_example_nativetools_NativeLib_updateProgress(
+        JNIEnv* env,
+        jobject /* this */,
+        jfloat progress) {
+    gRenderer.updateProgress(progress);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_com_example_nativetools_NativeLib_drawFrame(
+        JNIEnv* env,
+        jobject /* this */) {
+    gRenderer.drawFrame();
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_com_example_nativetools_NativeLib_resizeRenderer(
+        JNIEnv* env,
+        jobject /* this */,
+        jint width,
+        jint height) {
+    gRenderer.resize(width, height);
 }
