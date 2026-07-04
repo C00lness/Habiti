@@ -2,7 +2,8 @@
 #include <android/log.h>
 #include <math.h>
 #include "renderer.h"
-
+#include <android/asset_manager.h>
+#include <android/asset_manager_jni.h>
 #define LOG_TAG "NativeTools"
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
 
@@ -147,4 +148,14 @@ Java_com_example_nativetools_NativeLib_resizeRenderer(
         jint width,
         jint height) {
     gRenderer.resize(width, height);
+}
+
+ AAssetManager* gAssetManager = nullptr;
+
+extern "C" JNIEXPORT void JNICALL
+Java_com_example_nativetools_NativeLib_setAssetManager(
+        JNIEnv* env,
+        jclass clazz,
+        jobject assetManager) {
+    gAssetManager = AAssetManager_fromJava(env, assetManager);
 }

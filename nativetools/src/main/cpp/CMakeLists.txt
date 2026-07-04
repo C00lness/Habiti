@@ -6,11 +6,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_library(${CMAKE_PROJECT_NAME} SHARED
         native-lib.cpp
-        renderer.cpp)
+        renderer.cpp
+)
 
 # Находим библиотеки
 find_library(log-lib log)
 find_library(GLESv2-lib GLESv2)
+find_library(android-lib android)
 
 # 👇 ПРОВЕРКА, ЧТО GLESv2 НАЙДЕНА
 if(GLESv2-lib STREQUAL "GLESv2-NOTFOUND")
@@ -22,4 +24,5 @@ endif()
 # 👇 ЛИНКУЕМ ОБЕ БИБЛИОТЕКИ
 target_link_libraries(${CMAKE_PROJECT_NAME}
         ${log-lib}
-        ${GLESv2-lib})
+        ${GLESv2-lib}
+        ${android-lib})

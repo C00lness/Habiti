@@ -29,7 +29,7 @@ fun HabitCubeScreen() {
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(300.dp)
+                .height(1500.dp)
         )
 
         Spacer(modifier = Modifier.height(16.dp))

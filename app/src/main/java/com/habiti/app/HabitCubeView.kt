@@ -8,10 +8,11 @@ import javax.microedition.khronos.opengles.GL10
 
 class HabitCubeView(context: Context) : GLSurfaceView(context) {
 
-    private val renderer = HabitCubeRenderer()
     private val nativeLib = NativeLib()
+    private val renderer = HabitCubeRenderer()
 
     init {
+        NativeLib.setAssetManager(context.assets)
         setEGLContextClientVersion(2)
         setRenderer(renderer)
         renderMode = RENDERMODE_CONTINUOUSLY

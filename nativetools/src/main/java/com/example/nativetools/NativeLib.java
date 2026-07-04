@@ -1,5 +1,7 @@
 package com.example.nativetools;
 
+import android.content.res.AssetManager;
+
 public class NativeLib {
     static {
         System.loadLibrary("nativetools");
@@ -14,4 +16,5 @@ public class NativeLib {
     public native void updateProgress(float progress);
     public native void drawFrame();
     public native void resizeRenderer(int width, int height);
+    public static native void setAssetManager(AssetManager assetManager);
 }

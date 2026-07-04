@@ -1,6 +1,8 @@
-#ifndef HABITI_RENDERER_H
-#define HABITI_RENDERER_H
+#ifndef RENDERER_H
+#define RENDERER_H
+
 #include <GLES2/gl2.h>
+#include <string>
 
 class Renderer {
 public:
@@ -24,7 +26,11 @@ private:
     int screenWidth_ = 0;
     int screenHeight_ = 0;
     GLsizei indexCount_ = 0;
-};
+    std::string currentModelPath_;
 
+    void loadModel(const std::string& path);
+    void loadModelForProgress(float progress);
+    std::string getModelPath(float progress);
+};
 
 #endif
