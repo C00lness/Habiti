@@ -41,7 +41,7 @@ fun MentorAvatar(
         }
 
         MentorType.MR_STRICK -> R.raw.bear
-        MentorType.DANCING_WOMAN -> R.raw.data5
+        MentorType.DANCING_WOMAN -> R.raw.data
     }
 
     val composition by rememberLottieComposition(

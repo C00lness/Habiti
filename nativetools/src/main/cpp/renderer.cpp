@@ -70,9 +70,9 @@ ObjModel loadOBJ(AAssetManager* assetManager, const std::string& filepath) {
                 colors.push_back(g);
                 colors.push_back(b);
             } else {
-                float r = 0.5f + 0.5f * (y + 1.0f);
-                float g = 0.5f + 0.5f * (x + 1.0f);
-                float b = 0.5f + 0.5f * (z + 1.0f);
+                float r = 0.60f + 0.30f * (x + 1.0f);  // От тёмно-бордового до ярко-красного
+                float g = 0.05f + 0.60f * (y + 1.0f);  // Золотой (только где нужно)
+                float b = 0.05f;
 
                 colors.push_back(r);
                 colors.push_back(g);
@@ -214,6 +214,7 @@ void Renderer::loadModel(const std::string& path) {
     if (model.vertices.empty() || model.indices.empty()) {
         LOGD("❌ Failed to load model: %s", path.c_str());
         indexCount_ = 0;
+        currentModelPath_ = path;
         return;
     }
 
@@ -268,6 +269,12 @@ void Renderer::init() {
     glGenBuffers(1, &vbo_);
     glGenBuffers(1, &ibo_);
 
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_);
+    glBufferData(GL_ARRAY_BUFFER, 0, nullptr, GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 0, nullptr, GL_STATIC_DRAW);
+
     indexCount_ = 0;
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -298,14 +305,14 @@ void Renderer::drawFrame() {
 
     // Используем реальные размеры экрана
     glViewport(0, 0, screenWidth_, screenHeight_);
-    glClearColor(0.1f, 0.1f, 0.2f, 1.0f);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
     glUseProgram(program_);
 
     float scale = 0.5f + progress_ * 0.8f;
     static float angle = 0.0f;
-    angle += 0.02f;
+    angle += 0.005f;
 
     float transform[16] = {
             cosf(angle) * scale, 0.0f, sinf(angle) * scale, 0.0f,

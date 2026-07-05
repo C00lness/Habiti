@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.nativetools.NativeLib
+import com.habiti.habits.impl.cpp.HabitCubeScreen
 
 
 class MainActivity : ComponentActivity() {
@@ -34,8 +35,8 @@ class MainActivity : ComponentActivity() {
                 modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colorScheme.background
             ) {
-                //MainScreen()
-                HabitCubeScreen()
+                MainScreen()
+                //HabitCubeScreen()
             }
         }
     }

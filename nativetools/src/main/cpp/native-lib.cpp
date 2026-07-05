@@ -1,41 +1,108 @@
 #include <jni.h>
 #include <android/log.h>
-#include <math.h>
 #include "renderer.h"
 #include <android/asset_manager.h>
 #include <android/asset_manager_jni.h>
+
 #define LOG_TAG "NativeTools"
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
 
-// Существующая функция
-extern "C" JNIEXPORT jstring JNICALL
-Java_com_example_nativetools_NativeLib_stringFromJNI(
-        JNIEnv *env,
+AAssetManager* gAssetManager = nullptr;
+
+// AssetManager
+extern "C" JNIEXPORT void JNICALL
+Java_com_example_nativetools_NativeLib_setAssetManager(
+        JNIEnv* env,
+        jclass clazz,
+        jobject assetManager) {
+    gAssetManager = AAssetManager_fromJava(env, assetManager);
+    LOGD("✅ AssetManager set");
+}
+
+// Создание рендерера
+extern "C" JNIEXPORT jlong JNICALL
+Java_com_example_nativetools_NativeLib_createRenderer(
+        JNIEnv* env,
         jobject /* this */) {
-    return env->NewStringUTF("Hello from C++!");
+    Renderer* renderer = new Renderer();
+    LOGD("✅ Renderer created: %p", renderer);
+    return reinterpret_cast<jlong>(renderer);
 }
 
-// 👇 НОВАЯ ФУНКЦИЯ
-extern "C" JNIEXPORT jint JNICALL
-Java_com_example_nativetools_NativeLib_add(
-        JNIEnv *env,
+// Инициализация рендерера (вызывается когда есть OpenGL контекст)
+extern "C" JNIEXPORT void JNICALL
+Java_com_example_nativetools_NativeLib_initRenderer(
+        JNIEnv* env,
         jobject /* this */,
-        jint a,
-        jint b) {
-
-    LOGD("Native add called with %d + %d", a, b);
-    int result = a + b;
-    LOGD("Result: %d", result);
-    return result;
+        jlong ptr) {
+    Renderer* renderer = reinterpret_cast<Renderer*>(ptr);
+    if (renderer) {
+        renderer->init();
+        LOGD("✅ Renderer init: %p", renderer);
+    }
 }
 
+// Обновление прогресса
+extern "C" JNIEXPORT void JNICALL
+Java_com_example_nativetools_NativeLib_updateRendererProgress(
+        JNIEnv* env,
+        jobject /* this */,
+        jlong ptr,
+        jfloat progress) {
+    Renderer* renderer = reinterpret_cast<Renderer*>(ptr);
+    if (renderer) {
+        renderer->updateProgress(progress);
+        LOGD("📊 Progress updated: %.2f", progress);
+    }
+}
+
+// Рисование кадра
+extern "C" JNIEXPORT void JNICALL
+Java_com_example_nativetools_NativeLib_drawRendererFrame(
+        JNIEnv* env,
+        jobject /* this */,
+        jlong ptr) {
+    Renderer* renderer = reinterpret_cast<Renderer*>(ptr);
+    if (renderer) {
+        renderer->drawFrame();
+    }
+}
+
+// Изменение размера
+extern "C" JNIEXPORT void JNICALL
+Java_com_example_nativetools_NativeLib_resizeRenderer(
+        JNIEnv* env,
+        jobject /* this */,
+        jlong ptr,
+        jint width,
+        jint height) {
+    Renderer* renderer = reinterpret_cast<Renderer*>(ptr);
+    if (renderer) {
+        renderer->resize(width, height);
+        LOGD("📐 Renderer resized: %dx%d", width, height);
+    }
+}
+
+// Уничтожение рендерера
+extern "C" JNIEXPORT void JNICALL
+Java_com_example_nativetools_NativeLib_destroyRenderer(
+        JNIEnv* env,
+        jobject /* this */,
+        jlong ptr) {
+    Renderer* renderer = reinterpret_cast<Renderer*>(ptr);
+    if (renderer) {
+        LOGD("✅ Renderer destroyed: %p", renderer);
+        delete renderer;
+    }
+}
+
+// Остальные методы
 extern "C" JNIEXPORT jdouble JNICALL
 Java_com_example_nativetools_NativeLib_calculateStability(
         JNIEnv *env,
         jobject /* this */,
         jintArray completions) {
-
-// Получаем длину массива
+    // Получаем длину массива
     jsize length = env->GetArrayLength(completions);
     if (length == 0) return 0.0;
 
@@ -62,7 +129,6 @@ Java_com_example_nativetools_NativeLib_calculateCorrelation(
         jobject /* this */,
         jdoubleArray xArray,
         jdoubleArray yArray) {
-
     jsize length = env->GetArrayLength(xArray);
     if (length == 0 || env->GetArrayLength(yArray) != length) {
         return 0.0;
@@ -118,44 +184,19 @@ Java_com_example_nativetools_NativeLib_calculateCorrelation(
     double correlation = sumXY / denominator;
     return (correlation + 1.0) / 2.0 * 100.0;
 }
-static Renderer gRenderer;
-extern "C" JNIEXPORT void JNICALL
-Java_com_example_nativetools_NativeLib_initRenderer(
-        JNIEnv* env,
-        jobject /* this */) {
-    gRenderer.init();
-}
 
-extern "C" JNIEXPORT void JNICALL
-Java_com_example_nativetools_NativeLib_updateProgress(
-        JNIEnv* env,
+extern "C" JNIEXPORT jint JNICALL
+Java_com_example_nativetools_NativeLib_add(
+        JNIEnv *env,
         jobject /* this */,
-        jfloat progress) {
-    gRenderer.updateProgress(progress);
+        jint a,
+        jint b) {
+    // ... ваш код
 }
 
-extern "C" JNIEXPORT void JNICALL
-Java_com_example_nativetools_NativeLib_drawFrame(
-        JNIEnv* env,
+extern "C" JNIEXPORT jstring JNICALL
+Java_com_example_nativetools_NativeLib_stringFromJNI(
+        JNIEnv *env,
         jobject /* this */) {
-    gRenderer.drawFrame();
-}
-
-extern "C" JNIEXPORT void JNICALL
-Java_com_example_nativetools_NativeLib_resizeRenderer(
-        JNIEnv* env,
-        jobject /* this */,
-        jint width,
-        jint height) {
-    gRenderer.resize(width, height);
-}
-
- AAssetManager* gAssetManager = nullptr;
-
-extern "C" JNIEXPORT void JNICALL
-Java_com_example_nativetools_NativeLib_setAssetManager(
-        JNIEnv* env,
-        jclass clazz,
-        jobject assetManager) {
-    gAssetManager = AAssetManager_fromJava(env, assetManager);
+    return env->NewStringUTF("Hello from C++!");
 }

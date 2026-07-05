@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.habiti.habits.impl.cpp.HabitCubeScreen
 import com.habiti.habits.impl.domain.Habit
 
 @Composable
@@ -44,7 +45,6 @@ fun GridHabitsLayout(
                 correlation = correlation(habit.id),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .aspectRatio(1f)
                     .padding(5.dp)
             )
         }

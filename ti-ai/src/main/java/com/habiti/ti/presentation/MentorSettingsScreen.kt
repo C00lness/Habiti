@@ -1,5 +1,6 @@
 package com.habiti.ti.presentation
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -99,6 +100,7 @@ fun MentorSettingsScreen(
                         strokeCap = ProgressIndicatorDefaults.LinearStrokeCap,
                         )
                         if (maxStreak >= 5) {
+                            Spacer(modifier = Modifier.height(8.dp))
                             Text(
                                 text = "✅ Разблокирована!",
                                 style = MaterialTheme.typography.bodySmall,
@@ -238,6 +240,11 @@ fun MentorSettingsScreen(
                         { Icon(Icons.Default.Check, contentDescription = null) }
                     } else null
                 )
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
                 if (isMrStrickUnlocked) {
                     FilterChip(
                         selected = selectedType == MentorType.MR_STRICK,

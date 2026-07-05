@@ -205,7 +205,7 @@ class HabitsViewModel( private val repository: HabitRepository,
             val x = history.mapIndexed { index, _ -> index.toDouble() }.toDoubleArray() // дни
             val y = history.map { if (it.second) 1.0 else 0.0 }.toDoubleArray() // выполнение
 
-            val correlation = NativeLib().calculateCorrelation(x, y)
+            val correlation = 0.0//NativeLib().calculateCorrelation(x, y)
             Log.d("JNI_Test", "Correlation $habitId: $correlation")
 
             updateCorrelation(habitId)
@@ -229,7 +229,7 @@ class HabitsViewModel( private val repository: HabitRepository,
 //            }
             val x = history.mapIndexed { index, _ -> index.toDouble() }.toDoubleArray()
             val y = history.map { if (it.second) 1.0 else 0.0 }.toDoubleArray()
-            val correlation = NativeLib().calculateCorrelation(x, y)
+            val correlation = 0.0//NativeLib().calculateCorrelation(x, y)
 
             // Обновляем карту
             _correlationMap.value = _correlationMap.value.toMutableMap().apply {
