@@ -119,24 +119,6 @@ fun HabitCard(
                 modifier = Modifier.padding(bottom = 2.dp)
             )
 
-            Box(
-                modifier = Modifier
-                    .width(if (progress == 1.toFloat()) 50.dp else if (progress >= 0.3.toFloat()) 40.dp else 35.dp)
-                    .height(if (progress == 1.toFloat()) 50.dp else if (progress >= 0.3.toFloat()) 40.dp else 35.dp)
-                    .padding(5.dp)
-            ) {
-                AndroidView(
-                    factory = { context ->
-                        HabitCubeView(context).also {
-                            it.updateProgress(progress)
-                        }
-                    },
-                    update = { view ->
-                        view.updateProgress(progress)
-                    },
-                    modifier = Modifier.fillMaxSize()
-                )
-            }
 
             // Вторая строка: кнопки (редактировать, удалить, аналитика)
             Row(
@@ -211,6 +193,25 @@ fun HabitCard(
                         .height(4.dp),
                     color = Color(habit.color),
                     trackColor = Color(habit.color).copy(alpha = 0.2f)
+                )
+            }
+            Box(
+                modifier = Modifier
+
+                    .padding(5.dp).width(120.dp).height(120.dp), contentAlignment = Alignment.Center
+            ) {
+                AndroidView(
+                    factory = { context ->
+                        HabitCubeView(context).also {
+                            it.updateProgress(progress)
+                        }
+                    },
+                    update = { view ->
+                        view.updateProgress(progress)
+                    },
+                    modifier = Modifier
+                        .width(if (progress == 1.toFloat()) 120.dp else if (progress >= 0.3.toFloat()) 60.dp else 50.dp)
+                        .height(if (progress == 1.toFloat()) 120.dp else if (progress >= 0.3.toFloat()) 60.dp else 50.dp)
                 )
             }
         }
