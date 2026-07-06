@@ -221,20 +221,21 @@ class HabitsViewModel( private val repository: HabitRepository,
     private fun updateCorrelation(habitId: String) {
         viewModelScope.launch {
             val history = historyRepository.getLastNDays(habitId, 30)
-//            if (history.size < 3) {
-//                _correlationMap.value = _correlationMap.value.toMutableMap().apply {
-//                    put(habitId, null)
-//                }
-//                return@launch
-//            }
-            val x = history.mapIndexed { index, _ -> index.toDouble() }.toDoubleArray()
-            val y = history.map { if (it.second) 1.0 else 0.0 }.toDoubleArray()
-            val correlation = 0.0//NativeLib().calculateCorrelation(x, y)
 
-            // Обновляем карту
-            _correlationMap.value = _correlationMap.value.toMutableMap().apply {
-                put(habitId, correlation)
+            val result = if (history.isEmpty()) {
+                null
+            } else {
+                val x = history.indices.map { it.toDouble() }.toDoubleArray()
+                val y = history.map { if (it.second) 1.0 else 0.0 }.toDoubleArray()
+                NativeLib().calculateCorrelation(x, y)
             }
+
+            // ✅ Правильный способ: создаем новую Map
+            _correlationMap.value = _correlationMap.value + (habitId to result)
+            // или используем toMap()
+            // _correlationMap.value = _correlationMap.value.toMutableMap().apply {
+            //     this[habitId] = result
+            // }.toMap()
         }
     }
 
