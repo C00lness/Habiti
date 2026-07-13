@@ -25,6 +25,7 @@ public:
     Renderer();
     ~Renderer();
 
+    void setScale(float scale) { customScale_ = scale; }
     void init();
     void loadModel(const std::string& path);
     void loadModelForProgress(float progress);
@@ -45,7 +46,7 @@ private:
     GLuint vbo_ = 0;
     GLuint ibo_ = 0;
     GLsizei indexCount_ = 0;
-
+    float customScale_ = 0.5f;
     // Атрибуты шейдера
     GLint aPos_ = 0;
     GLint aTexCoord_ = 0;

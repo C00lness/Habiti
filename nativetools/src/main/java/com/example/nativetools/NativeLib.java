@@ -2,6 +2,8 @@ package com.example.nativetools;
 
 import android.content.res.AssetManager;
 
+import org.jetbrains.annotations.NotNull;
+
 public class NativeLib {
     static {
         System.loadLibrary("nativetools");
@@ -23,4 +25,6 @@ public class NativeLib {
     public native void drawRendererFrame(long ptr);
     public native void resizeRenderer(long ptr, int width, int height);
     public native void destroyRenderer(long ptr);
+    public static native void loadRendererModel(long ptr, String modelPath);
+    public static native void setScale(long ptr, float scale);
 }

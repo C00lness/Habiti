@@ -1,6 +1,5 @@
 package com.habiti.app
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -11,23 +10,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.habiti.core.ai.ModelType
 import com.habiti.core.ai.MentorType
 import com.habiti.core.ai.UserPreferences
-import com.habiti.ti.presentation.MentorTypeCard
+import com.habiti.habits.impl.cpp.HabitCubeView
+import com.habiti.ti.presentation.ModelTypeCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OnboardingScreen(
     onComplete: (UserPreferences) -> Unit
 ) {
-    var step by remember { mutableStateOf(0) }
+    var step by remember { mutableIntStateOf(0) }
 
     var userName by remember { mutableStateOf("") }
-    var selectedType by remember { mutableStateOf<MentorType?>(null) }
+    var selectedType by remember { mutableStateOf<ModelType?>(null) }
+
     var mentorName by remember { mutableStateOf("") }
     var error by remember { mutableStateOf<String?>(null) }
 
-    val chooseMentorError = stringResource(R.string.choose_mentor)
+    val chooseModelError = stringResource(R.string.choose_dragon_model_error)
     val enterNameError = stringResource(R.string.enter_user_name)
 
     Scaffold(
@@ -35,7 +37,7 @@ fun OnboardingScreen(
             TopAppBar(
                 title = {
                     Text(
-                        if (step == 0) stringResource(R.string.who_are_y) else stringResource(R.string.choose_mentor),
+                        if (step == 0) stringResource(R.string.who_are_y) else stringResource(R.string.choose_dragon_model),
                         fontWeight = FontWeight.Bold
                     )
                 },
@@ -102,12 +104,7 @@ fun OnboardingScreen(
                     verticalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
                     Text(
-                        text = stringResource(R.string.choose_mentor),
-                        style = MaterialTheme.typography.headlineSmall,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = stringResource(R.string.who_y_teach),
+                        text = stringResource(R.string.choose_dragon_model_rase),
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -116,37 +113,31 @@ fun OnboardingScreen(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        MentorTypeCard(
-                            type = MentorType.MALE,
-                            isSelected = selectedType == MentorType.MALE,
-                            onClick = { selectedType = MentorType.MALE; error = null },
+                        ModelTypeCard(
+                            type = ModelType.DRAGON_RED,
+                            isSelected = selectedType == ModelType.DRAGON_RED,
+                            onClick = { selectedType = ModelType.DRAGON_RED; error = null },
+                            dragonViewFactory = { ctx ->
+                                HabitCubeView(ctx).apply {
+                                    loadModel("dragon_red.obj")
+                                }
+                            },
                             modifier = Modifier.weight(1f)
                         )
-                        MentorTypeCard(
-                            type = MentorType.FEMALE,
-                            isSelected = selectedType == MentorType.FEMALE,
-                            onClick = { selectedType = MentorType.FEMALE; error = null },
+                        ModelTypeCard(
+                            type = ModelType.DRAGON_GREEN,
+                            isSelected = selectedType == ModelType.DRAGON_GREEN,
+                            onClick = { selectedType = ModelType.DRAGON_GREEN; error = null },
+                            dragonViewFactory = { ctx ->
+                                HabitCubeView(ctx).apply {
+                                    loadModel("dragon_green.obj")
+                                }
+                            },
                             modifier = Modifier.weight(1f)
                         )
                     }
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(16.dp)
-                    ) {
-                        MentorTypeCard(
-                            type = MentorType.CAT,
-                            isSelected = selectedType == MentorType.CAT,
-                            onClick = {selectedType = MentorType.CAT; error = null  },
-                            modifier = Modifier.weight(1f)
-                        )
-//                        MentorTypeCard(
-//                            type = MentorType.ANONYMOUS,
-//                            isSelected = selectedType == MentorType.ANONYMOUS,
-//                            onClick = { },
-//                            true,
-//                            modifier = Modifier.weight(1f)
-//                        )
-                    }
+                }
+
                     OutlinedTextField(
                         value = mentorName,
                         onValueChange = { mentorName = it; error = null },
@@ -166,13 +157,13 @@ fun OnboardingScreen(
                     Button(
                         onClick = {
                             when {
-                                selectedType == null -> error = chooseMentorError
+                                selectedType == null -> error = chooseModelError
                                 mentorName.isBlank() -> error = errorVar
 
                                 else -> {
                                     onComplete(
                                         UserPreferences(
-                                            mentorType = selectedType!!,
+                                            mentorType = MentorType.DANCING_WOMAN,
                                             mentorName = mentorName.trim(),
                                             userName = userName.trim(),
                                             isOnboardingCompleted = true
@@ -192,5 +183,4 @@ fun OnboardingScreen(
                 }
             }
         }
-    }
 }

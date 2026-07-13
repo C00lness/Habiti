@@ -542,15 +542,9 @@ void Renderer::updateProgress(float progress) {
 }
 
 void Renderer::drawFrame() {
-    if (program_ == 0 || vbo_ == 0 || ibo_ == 0) {
-        return;
-    }
-
-    loadModelForProgress(progress_);
-
-    if (indexCount_ == 0 || currentModel.groups.empty()) {
-        return;
-    }
+    if (program_ == 0 || vbo_ == 0 || ibo_ == 0) return;
+    if (currentModelPath_.empty()) loadModelForProgress(progress_);
+    if (indexCount_ == 0 || currentModel.groups.empty()) return;
 
     glViewport(0, 0, screenWidth_, screenHeight_);
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -558,7 +552,7 @@ void Renderer::drawFrame() {
 
     glUseProgram(program_);
 
-    float scale = 0.5f + progress_ * 0.8f;
+    float scale = customScale_;
     static float angle = 0.0f;
     angle += 0.005f;
 

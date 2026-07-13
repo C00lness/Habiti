@@ -200,3 +200,32 @@ Java_com_example_nativetools_NativeLib_stringFromJNI(
         jobject /* this */) {
     return env->NewStringUTF("Hello from C++!");
 }
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_example_nativetools_NativeLib_loadRendererModel(
+        JNIEnv* env,
+        jclass clazz,
+        jlong ptr,
+        jstring modelPath) {
+    Renderer* renderer = reinterpret_cast<Renderer*>(ptr);
+    if (renderer) {
+        const char* path = env->GetStringUTFChars(modelPath, nullptr);
+        renderer->loadModel(std::string(path));
+        env->ReleaseStringUTFChars(modelPath, path);
+        LOGD("📦 Model loaded: %s", path);
+    }
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_com_example_nativetools_NativeLib_setScale(
+        JNIEnv* env,
+        jclass clazz,
+        jlong ptr,
+        jfloat scale) {
+    Renderer* renderer = reinterpret_cast<Renderer*>(ptr);
+    if (renderer) {
+        renderer->setScale(scale);
+        LOGD("📐 Scale set: %f", scale);
+    }
+}

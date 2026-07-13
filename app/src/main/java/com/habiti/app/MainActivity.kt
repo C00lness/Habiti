@@ -22,12 +22,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-        val days = doubleArrayOf(1.0, 2.0, 3.0, 4.0, 5.0)
-        val completed = doubleArrayOf(0.0, 1.0, 1.0, 1.0, 1.0)
-        val corr = NativeLib().calculateCorrelation(days, completed)
-        Log.d("JNI_Test", "r = $corr")
-
         enableEdgeToEdge()
         requestNotificationPermission()
         setContent {
@@ -36,7 +30,6 @@ class MainActivity : ComponentActivity() {
                 color = MaterialTheme.colorScheme.background
             ) {
                 MainScreen()
-                //HabitCubeScreen()
             }
         }
     }

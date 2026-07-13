@@ -2,6 +2,9 @@
     <string name="app_name">Habiti</string>
     <string name="hello">Добро пожаловать!</string>
     <string name="choose_mentor">Выберите наставника</string>
+    <string name="choose_dragon_model_error">Выберите пожалуйста дракона</string>
+    <string name="choose_dragon_model">Какого дракона желаете?</string>
+    <string name="choose_dragon_model_rase">Какого дракона будем растить?</string>
     <string name="who_y_teach">Кто будет поддерживать вас на пути к привычкам?</string>
     <string name="mentor_name">Имя наставника</string>
     <string name="mentor_hold">Например, Елена</string>

@@ -210,8 +210,8 @@ fun HabitCard(
                         view.updateProgress(progress)
                     },
                     modifier = Modifier
-                        .width(if (progress == 1.toFloat()) 120.dp else if (progress >= 0.3.toFloat()) 60.dp else 50.dp)
-                        .height(if (progress == 1.toFloat()) 120.dp else if (progress >= 0.3.toFloat()) 60.dp else 50.dp)
+                        .width(if (progress == 1.toFloat()) 120.dp else if (progress >= 0.3.toFloat()) 70.dp else 50.dp)
+                        .height(if (progress == 1.toFloat()) 120.dp else if (progress >= 0.3.toFloat()) 70.dp else 50.dp)
                 )
             }
         }

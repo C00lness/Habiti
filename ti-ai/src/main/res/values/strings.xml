@@ -51,6 +51,9 @@
     <string name="mentor_name_default">Наставник</string>
     <string name="user_name_default">Пользователь</string>
 
+    <string name="dragon_red">Красный дракон</string>
+    <string name="dragon_green">Зеленый дракон</string>
+
     <string name="mentor_man">Мужчина</string>
     <string name="mentor_woman">Женщина</string>
     <string name="mentor_finance">AI помощник</string>
